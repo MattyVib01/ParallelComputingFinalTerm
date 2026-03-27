@@ -27,7 +27,7 @@ def compute_trigrams(chars):
     return t_chars
 
 if __name__ == '__main__':
-    file_path = os.path.join('texts', 'text1_large.txt')
+    file_path = os.path.join('texts', 'text1.txt')
 
     print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -48,10 +48,9 @@ if __name__ == '__main__':
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
     
-    # TODO nella versione parallela questo deve diventare "parallel"
-    save_csv(file_path, "sequential", tempo_b, tempo_t)
-    print(f"Tempi salvati correttamente in 'results/text1_sequential_results.csv'")
+    save_csv(file_path, 1, "sequential", tempo_b, tempo_t)
+    print(f"Tempi salvati correttamente in ", file_path)
     
     # Stampa di verifica dei risultati
-    print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5))
-    print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
+    #print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5))
+    #print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
