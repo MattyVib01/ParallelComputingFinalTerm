@@ -1,7 +1,9 @@
 import time
 import os
+import csv
 from collections import Counter
 from cleaner import clean_chars
+from save_csv import save_csv
 
 def get_ngrams(seq, n):
     """
@@ -18,35 +20,38 @@ def get_ngrams(seq, n):
 
 def compute_bigrams(chars):
     b_chars = Counter(get_ngrams(chars, 2))
-
     return b_chars
 
 def compute_trigrams(chars):
     t_chars = Counter(get_ngrams(chars, 3))
-
     return t_chars
 
 if __name__ == '__main__':
     file_path = os.path.join('texts', 'text1_large.txt')
 
-    print("Fase di preprocessing")
+    print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
         text = f.read()
     chars = clean_chars(text)
     
-    print(f"Calcolo dei Bigram")
-    start = time.perf_counter()
-    bc=compute_bigrams(chars)
-    end = time.perf_counter()
-    print(f"Completato in {end - start:.4f} secondi.\n")
+    print("Calcolo dei Bigrammi...")
+    start_b = time.perf_counter()
+    bc = compute_bigrams(chars)
+    end_b = time.perf_counter()
+    tempo_b = end_b - start_b
+    print(f"Completato in {tempo_b:.4f} secondi.")
 
-
-    print(f"Calcolo dei Trigram")
-    start = time.perf_counter()
-    tc=compute_trigrams(chars)
-    end = time.perf_counter()
-    print(f"Completato in {end - start:.4f} secondi.\n")
+    print("Calcolo dei Trigrammi...")
+    start_t = time.perf_counter()
+    tc = compute_trigrams(chars)
+    end_t = time.perf_counter()
+    tempo_t = end_t - start_t
+    print(f"Completato in {tempo_t:.4f} secondi.\n")
+    
+    # TODO nella versione parallela questo deve diventare "parallel"
+    save_csv(file_path, "sequential", tempo_b, tempo_t)
+    print(f"Tempi salvati correttamente in 'results/text1_sequential_results.csv'")
     
     # Stampa di verifica dei risultati
-    print("Top 5 Bigrammi di caratteri:", bc.most_common(5))
+    print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5))
     print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
