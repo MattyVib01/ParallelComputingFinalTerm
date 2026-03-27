@@ -1,22 +1,4 @@
-import string
-import os
-
-def clean_words(text):
-    """Lowercases, removes punctuation, and splits into words."""
-    text = text.lower()
-    return text.translate(str.maketrans('', '', string.punctuation)).split()
-
-def clean_chars(text):
-    """Lowercases, removes punctuation and all whitespace/newlines."""
-    text = text.lower()
-    return text.translate(str.maketrans('', '', string.punctuation + ' \n\t\r'))
-
-
-
-
-
-
-def crea_corpus_gigante(file_input, file_output, moltiplicatore):
+def create_large_corpus(file_input, file_output, moltiplicatore):
     with open(file_input, 'r', encoding='utf-8') as f:
         testo_base = f.read()
 
@@ -36,4 +18,4 @@ if __name__ == '__main__':
     output_path = os.path.join('texts', 'text1_large.txt')
     
     # Frankenstein è circa 400KB. Moltiplicandolo per 250 otteniamo circa 100 MB.
-    crea_corpus_gigante(input_path, output_path, moltiplicatore=50)
+    create_large_corpus(input_path, output_path, moltiplicatore=50)
