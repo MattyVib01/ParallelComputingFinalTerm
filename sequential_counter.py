@@ -49,8 +49,8 @@ if __name__ == '__main__':
     print(f"Completato in {tempo_t:.4f} secondi.\n")
     
     save_csv(file_path, 1, "sequential", tempo_b, tempo_t)
-    print(f"Tempi salvati correttamente in ", file_path)
+    print("Tempi salvati correttamente nel file csv")
     
     # Stampa di verifica dei risultati
-    #print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5))
+    #print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5)) 
     #print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
