@@ -1,10 +1,10 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  20 MAR 2026 12:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  31 MAR 2026 18:36
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
  %&-line parsing enabled.
-**c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex1/rel/PC_course_project_template.tex
-(c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex1/rel/PC_course_project_template.tex
+**c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex
+(c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
 (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/base\article.cls
@@ -145,26 +145,51 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
+)) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/generic/babel\babel.sty
+Package: babel 2024/01/07 v24.1 The Babel package
+\babel@savecnt=\count278
+\U@D=\dimen157
+\l@unhyphenated=\language79
+ (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/generic/babel\txtbabel.def)
+\bbl@readstream=\read2
+\bbl@dirlevel=\count279
+
+*************************************
+* Local config file bblopts.cfg used
+*
+(C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/arabi\bblopts.cfg
+File: bblopts.cfg 2005/09/08 v0.1 add Arabic and Farsi to "declared" options of babel
+) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/babel-italian\italian.ldf
+Language: italian 2024/10/10 v.1.5.01 Italian support for the babel system
+\it@lettering=\count280
+\it@doublequoteactive=\count281
+\it@ISOcompliance=\count282
+)) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/generic/babel/locale/it\babel-italian.tex
+Package babel Info: Importing font and identification data for italian
+(babel)             from babel-it.ini. Reported on input line 11.
+) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/etoolbox\etoolbox.sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count283
+) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/url\url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 ) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.sty
-\lst@mode=\count278
+\lst@mode=\count284
 \lst@gtempboxa=\box55
 \lst@token=\toks23
-\lst@length=\count279
-\lst@currlwidth=\dimen157
-\lst@column=\count280
-\lst@pos=\count281
-\lst@lostspace=\dimen158
-\lst@width=\dimen159
-\lst@newlines=\count282
-\lst@lineno=\count283
-\lst@maxwidth=\dimen160
+\lst@length=\count285
+\lst@currlwidth=\dimen158
+\lst@column=\count286
+\lst@pos=\count287
+\lst@lostspace=\dimen159
+\lst@width=\dimen160
+\lst@newlines=\count288
+\lst@lineno=\count289
+\lst@maxwidth=\dimen161
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
-\c@lstnumber=\count284
-\lst@skipnumbers=\count285
+\c@lstnumber=\count290
+\lst@skipnumbers=\count291
 \lst@framebox=\box56
 ) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\listings.cfg
 File: listings.cfg 2023/02/27 1.9 listings configuration
@@ -188,47 +213,43 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1372.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1373.
 ) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
 File: lstlang1.sty 2023/02/27 1.9 listings language file
-) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstlang1.sty
-File: lstlang1.sty 2023/02/27 1.9 listings language file
-) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/listings\lstmisc.sty
-File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 )
-LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 40.
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 44.
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 ) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count286
+\l__color_backend_stack_int=\count292
 \l__pdf_internal_box=\box57
 ) (PC_course_project_template.aux)
 \openout1 = `PC_course_project_template.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 40.
-LaTeX Font Info:    ... okay on input line 40.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 44.
+LaTeX Font Info:    ... okay on input line 44.
  ABD: EveryShipout initializing macros (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/context/base/mkii\supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count287
-\scratchdimen=\dimen161
+\scratchcounter=\count293
+\scratchdimen=\dimen162
 \scratchbox=\box58
-\nofMPsegments=\count288
-\nofMParguments=\count289
+\nofMPsegments=\count294
+\nofMParguments=\count295
 \everyMPshowfont=\toks24
-\MPscratchCnt=\count290
-\MPscratchDim=\dimen162
-\MPnumerator=\count291
-\makeMPintoPDFobject=\count292
+\MPscratchCnt=\count296
+\MPscratchDim=\dimen163
+\MPnumerator=\count297
+\makeMPintoPDFobject=\count298
 \everyMPtoPDFconversion=\toks25
 ) (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/epstopdf-pkg\epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -236,65 +257,55 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/00miktex\epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
-\c@lstlisting=\count293
-LaTeX Font Info:    Trying to load font information for U+msa on input line 55.
- (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
+LaTeX Info: Redefining \it@ocap on input line 44.
+LaTeX Info: Redefining \it@ccap on input line 44.
+
+
+File italian.ldf warning: 
+italian.ldf    With OT1 encoding guillemets are poorly faked
+italian.ldf    Use T1 encoding
+italian.ldf    or specify a font with command \CaporaliFrom
+italian.ldf    See the documentation concerning the babel-italian typesetting
+italian.ldf    on input line 44.
+
+\c@lstlisting=\count299
+LaTeX Font Info:    Trying to load font information for U+msa on input line 59.
+(C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 55.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 59.
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/amsfonts\umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 55.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 59.
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
-Underfull \hbox (badness 10000) in paragraph at lines 60--62
-[]\OT1/ptm/m/it/10 Il pro-getto si con-cen-tra sull'implementazione
- []
+<img1.png, id=1, 558.085pt x 229.658pt>
+File: img1.png Graphic file (type png)
+<use img1.png>
+Package pdftex.def Info: img1.png  used on input line 80.
+(pdftex.def)             Requested size: 213.4209pt x 87.82462pt.
+ [1{C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
 
 
-Underfull \hbox (badness 6268) in paragraph at lines 60--62
-\OT1/ptm/m/it/10 dell'algoritmo K-Means, in par-ti-co-lare il con-fronto
- []
-
-<img1.jpg, id=1, 563.10374pt x 421.575pt>
-File: img1.jpg Graphic file (type jpg)
-<use img1.jpg>
-Package pdftex.def Info: img1.jpg  used on input line 73.
-(pdftex.def)             Requested size: 189.70947pt x 142.02776pt.
-LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 84.
-(C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
+ <./img1.png>]
+LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 103.
+ (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [1{C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map}{C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc}
+) [2]
 
-
- <./img1.jpg>]
-Underfull \hbox (badness 2229) in paragraph at lines 92--93
-\OT1/ptm/m/n/10 le di-ret-tive che andr[]o ad uti-liz-zare per par-al-leliz-zare
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 101--102
-[]\OT1/ptm/m/n/10 Iniziamo l'analisi con la ver-sione se-quen-ziale
- []
-
-
-Underfull \hbox (badness 1122) in paragraph at lines 101--102
-\OT1/ptm/m/n/10 let-ter-atura e come detto prima []e for-mato da tre parti
- []
-
-
-Underfull \vbox (badness 1024) has occurred while \output is active []
-
- [2]
-
-LaTeX Warning: Reference `fig:onecol' on page 3 undefined on input line 227.
+LaTeX Warning: Reference `fig:onecol' on page 3 undefined on input line 239.
 
 
 Underfull \vbox (badness 1603) has occurred while \output is active []
 
- [3] (PC_course_project_template.bbl) [4] (PC_course_project_template.aux)
+ [3] (PC_course_project_template.bbl
+Underfull \hbox (badness 3668) in paragraph at lines 19--23
+[]\OT1/ptm/m/n/9 Authors.  The frob-ni-ca-ta-ble foo fil-ter, 2006.  EC-
+ []
+
+) [4] (PC_course_project_template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -305,17 +316,17 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 5380 strings out of 474486
- 77935 string characters out of 5743754
- 2028542 words of memory out of 5000000
- 27581 multiletter control sequences out of 15000+600000
+ 6825 strings out of 474486
+ 101864 string characters out of 5743754
+ 2006542 words of memory out of 5000000
+ 29006 multiletter control sequences out of 15000+600000
  589871 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,9n,79p,1211b,1281s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,9n,79p,1018b,1210s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PC_course_project_template.pdf (4 pages, 201015 bytes).
+Output written on PC_course_project_template.pdf (4 pages, 158690 bytes).
 PDF statistics:
- 67 PDF objects out of 1000 (max. 8388607)
+ 69 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

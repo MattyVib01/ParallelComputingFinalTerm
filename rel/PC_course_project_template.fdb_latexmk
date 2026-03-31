@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex PC_course_project_template"] 1774004980.94474 "PC_course_project_template.aux" "PC_course_project_template.bbl" "PC_course_project_template" 1774004984.21253 0
+["bibtex PC_course_project_template"] 1774974987.21986 "PC_course_project_template.aux" "PC_course_project_template.bbl" "PC_course_project_template" 1774974990.01868 0
   "./egbib.bib" 1773331635 948 6db8b0f38be5de90ac9f8009b713f78d ""
   "./ieee.bst" 1773331635 20752 f9cd22458ca68af2567100f1aed905e8 ""
-  "PC_course_project_template.aux" 1774004982 2914 101ace5fe6af7d6c7c80b5074f7dfbfb "pdflatex"
+  "PC_course_project_template.aux" 1774974988 3269 39a354d256744957f0c2028a9b2b176c "pdflatex"
   (generated)
   "PC_course_project_template.bbl"
   "PC_course_project_template.blg"
   (rewritten before read)
-["pdflatex"] 1774004981.41743 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex1/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1774004984.2139 0
+["pdflatex"] 1774974987.63584 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1774974990.01985 0
   "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1773331733 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/matti/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1760089577 24225047 511c4c92957775ce37541764e35af610 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -60,6 +60,10 @@
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmr8c.vf" 1136768654 3556 8a9a6dcbcd146ef985683f677f4758a6 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/vf/adobe/times/ptmri7t.vf" 1136768654 1384 a9d8adaf491ce34e5fba99dc7bbe5f39 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-pdf.mkii" 1580390158 71627 94eb9990bed73c364d7f53f960cc8c5b ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/generic/babel/babel.sty" 1704647332 150008 7a05b0fdc0167c04e192003e780ab195 ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/generic/babel/locale/it/babel-it.ini" 1704647334 4255 d2c36ede3f04f7968d64917327cbb37a ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/generic/babel/locale/it/babel-italian.tex" 1704647334 336 03ec4eb0d03eb340ff7cfbc6acac5ec5 ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/generic/babel/txtbabel.def" 1704647332 6948 df63e25be1d2bc35bbad5a0141f41348 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/00miktex/epstopdf-sys.cfg" 1616067285 584 2a1075dd71571459f59146da9f7502ad ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amsfonts.sty" 1358197772 5949 3f3fd50a8cc94c3d4cbf4fc66cd3df1c ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amssymb.sty" 1358197772 13829 94730e64147574077f8ecfea9bb69af4 ""
@@ -70,9 +74,12 @@
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsmath.sty" 1686931788 88371 d84032c0f422c3d1e282266c01bef237 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsopn.sty" 1686931788 4474 b811654f4bf125f11506d13d13647efb ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amstext.sty" 1686931788 2444 0d0c1ee65478277e8015d65b86983da2 ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/arabi/bblopts.cfg" 1705750854 902 c30e5c373bc58bde21f8f63a3091626f ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/babel-italian/italian.ldf" 1729264547 11361 8658bbf8ead5c43fd2f199c4b2910145 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/base/article.cls" 1705273579 20144 147463a6a579f4597269ef9565205cfe ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/base/size10.clo" 1705273578 8448 dbc0dbf4156c0bb9ba01a1c685d3bad0 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epstopdf-base.sty" 1623003186 13886 d1306dcf79a944f6988e688c1785f9ce ""
+  "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.sty" 1601897756 46845 3b58f70c6e861a13d927bff09d35ecbc ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color.cfg" 1465894292 1213 620bba36b25224fa9b7e1ccb4ecb76fd ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/graphics.cfg" 1465894292 1224 978390e9c2234eab29404bc21b268d1e ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/graphics-def/pdftex.def" 1663918690 19448 1e988b341dda20961a6b931bcde55519 ""
@@ -95,14 +102,14 @@
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1700599895 4545 9f5ea23ab1c91476c42749893f790666 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "PC_course_project_template.aux" 1774004982 2914 101ace5fe6af7d6c7c80b5074f7dfbfb "pdflatex"
-  "PC_course_project_template.bbl" 1774004981 682 5d431d1ced6572bf497f9f60ff467ebf "bibtex PC_course_project_template"
-  "PC_course_project_template.tex" 1774004978 15842 06259b1fa98c154548630201345455bd ""
-  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex1/rel/PC_course_project_template.tex" 1774004978 15842 06259b1fa98c154548630201345455bd ""
+  "PC_course_project_template.aux" 1774974988 3269 39a354d256744957f0c2028a9b2b176c "pdflatex"
+  "PC_course_project_template.bbl" 1774974987 682 5d431d1ced6572bf497f9f60ff467ebf "bibtex PC_course_project_template"
+  "PC_course_project_template.tex" 1774974983 16573 2bd75d06ed4cd080fdda51dbdc53b65b ""
+  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" 1774974983 16573 2bd75d06ed4cd080fdda51dbdc53b65b ""
   "cvpr.sty" 1773331635 8435 51b6483a72e0a50ce1e426c0920c8b85 ""
   "cvpr_eso.sty" 1773331636 3987 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1773331635 9727 d2935ae95b5cd343fcf5887ff530288d ""
-  "img1.jpg" 1774000884 63768 78e860531d707fa6df7fa096b1a246a9 ""
+  "img1.png" 1774968670 33596 fe16fc8d72dc41f0f1687c090643675b ""
   (generated)
   "PC_course_project_template.aux"
   "PC_course_project_template.log"

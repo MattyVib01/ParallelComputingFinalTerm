@@ -6,12 +6,8 @@ from cleaner import clean_chars
 from save_csv import save_csv
 
 def get_ngrams(seq, n):
-    """
-    Estrae n-grammi da una sequenza in modo chiaro e passo-passo.
-    """
     lista_ngrammi = []
     limite = len(seq) - n + 1
-    
     for i in range(limite):
         fetta = seq[i : i+n]
         ngramma_tupla = tuple(fetta)

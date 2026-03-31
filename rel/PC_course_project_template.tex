@@ -6,21 +6,25 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage[italian]{babel}
 
 \usepackage{url}
 \usepackage{listings}
 \usepackage{xcolor}
 
 \lstset{
-  language=C++,
+  language=Python,
   basicstyle=\ttfamily\small,
-  keywordstyle=\color{orange},
+  keywordstyle=\color{blue},
   commentstyle=\color{green!50!black},
   stringstyle=\color{red},
   numbers=left,
   numberstyle=\tiny\color{gray},
   breaklines=true,
-  frame=single,
+  frame=L,
+  captionpos=b,     % Sposta la caption in basso
+  basicstyle=\ttfamily\small, % Opzionale: un font monospace più elegante
+  breaklines=true
 }
 
 % Include other packages here, before hyperref.
@@ -40,7 +44,7 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{KMeans OpenMP}
+\title{Conteggio dei Bi-Grams e Tri-Grams}
 
 \author{Mattia Baroncelli\\
 7166468\\
@@ -57,7 +61,8 @@
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-   Il progetto si concentra sull'implementazione dell'algoritmo K-Means, in particolare il confronto fra la versione sequenziale e quella parallela. K-Means è un algoritmo per l'apprendimento non supervisionato, che permette dato un insieme di punti appartenenti ad uno stesso spazio dimensionale e un valore K, di partizionare l'insieme di punti in K diversi cluster. K-Means crea i cluster assegnando ad ogni punto il centroide più vicino, andando così a minimizzare la varianza all'interno di ogni gruppo. Lo scopo principale del progetto è quindi di implementare una versione parallela dell'algoritmo tramite il framework OpenMP, valutando i vantaggi rispetto alla versione sequenziale. Si andrà inoltre a ricercare la migliore soluzione al problema della parallelizzazione.
+   Il progetto si concentra sull'implementazione di un algoritmo che consenta di contare le istanze di bi-gram e tri-gram all'interno di un testo. Questo inteso sia come composizione di caratteri, che come composizione di parole. E' chiaro, a partire dalla natura del progetto, come all'aumentare della dimensione del file dato in input, i tempi di esecuzione si dilatano notevolemnte.
+   Lo scopo principale del progetto pertanto è quella di implementare una versione parallela dell'algoritmo, che vada a velocizzare il processo. La soluzione verrò data sia tramite la libreria \textit{Multiprocessing} che utilizzando \textit{JobLib}, valutando vantaggi e svantaggi dei due metodi.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
@@ -66,53 +71,60 @@
 
 \section{Introduction}
 
-L'algoritmo K-Means è un metodo che permette di formare cluster a partire da un dato insieme di punti. Questo viene fatto dando in input all'algoritmo un dataset di punti e un valore K che rappresenta il numero di cluster in cui saranno divisi i punti. L'algoritmo si basa sull'utilizzo dei centroidi, ossia K punti appartenenti al dataset, che durante l'esecuzione dell'algoritmo si andranno a spostare in base all'assegnazione dei punti del dataset ad ogni cluster. Al termine dell'algoritmo ogni punto sarà assegnato al cluster che minimizza la distaza con il proprio centroide. L'algoritmo è composto da tre fasi che vedremo nella prossima sezione ed è un algoritmo molto noto in letteratura, poichè nonostante la sua semplicità nell'implementazione risulta essere molto efficace. Nonostante questo però presenta alcune criticità, infatti all'aumentare della dimensionalità dei punti selezionati, sia per quanto riguarda il numero che per lo spazio, i tempi di esecuzione si dilatano notevolmente. Con lo scopo di superare queste limitazioni ho implementato la versione parallela dell'algoritmo. 
-Attraverso il framework \textit{OpenMP} è possibile parallelizzare parte del codice, e tramite questo andremo a valutare quanto l'impatto della parallelizzazione migliori le prestazioni dell'algoritmo.
+L'obiettivo principale del progetto è quello di creare un algoritmo che ci permetta di contare gli n-grams presenti in un file dato in input. Gli n-grams sono sequenze di n caratteri (o parole) consecutive che si riscontrano all'interno del testo. In particolare in questo progetto ci concentreremo sulla ricerca dei bi-gram e dei tri-gram (ossia le sequenze con n=2 e n=3). Nel caso dei bi-gram quindi l'algoritmo andrà a ricercare tutte le coppie di caratteri vicine all'interno del testo e successivamente conterà le occorrenze delle coppie all'interno del testo.
+Una delle maggiori criticità dell'algoritmo si presenta quando la dimensione del testo risulta essere molto grande, poichè il processo di contare le occorrenze all'interno del testo può durare molto tempo. Con lo scopo di superare queste limitazioni abbiamo implementato alcune versioni parallele dell'algoritmo, che riescono a suddividere le operazioni fra i vari core, andando a ridurre i tempi di esecuzione.
+Il processo di parallelizzazione è stato fatto usando Python; in particolare le due librerie \textit{Multiprocessing} e \textit{JobLib}. Andremo quindi a valutare quanto l'impatto della parallelizzazione migliori le prestazioni del conteggio degli n-grams.
+
 \begin{figure}[t]
 \begin{center}
-   \includegraphics[width=0.8\linewidth]{img1.jpg}
+   \includegraphics[width=0.9\linewidth]{img1.png}
 \end{center}
-   \caption{Esempio di clustering K-Means con evidenziate le partizioni dei punti.}
+   \caption{Esempio di uni-gram, bi-gram e tri-gram.}
 \label{fig:kmeans_example}
 \end{figure}
 
 
 %-------------------------------------------------------------------------
 \section{Implementazione}
-L'algoritmo K-Means è costituito da tre fasi principali, ognuna contraddistinta da step distinti:
-\begin{itemize}
-   \item Inizializzazione dei centroidi: in questa fase si andranno a selezionare casualmente K punti dal dataset che saranno utilizzati come centroidi.
-   \item Assegnazione dei punti ai cluster: l'algoritmo andrà a cercare per ogni punto il centroide a lui più vicino e di conseguenza gli assegnerà il corrispondente cluster.
-   \item Aggiornamento dei centroidi: una volta assegnati tutti i punti verrà fatta una media delle posizioni dei punti appartenente ad ogni cluster per aggiornare il relativo centroide.
-\end{itemize}
-Sull'implementazione di ogni fase ci concentreremo di seguito quando parleremo nel dettaglio del confronto fra versione sequenziale e parallela.
-Per quanto riguarda le condizioni di convergenza dell'algoritmo esistono varie scelte, io ho preferito interrompere l'algoritmo quando nessun punto ha cambiato cluster dopo un'iterazione di assegnazione dei punti ai rispettivi gruppi.
+Andiamo adesso a vedere alcune fasi necessarie e scelte di implementazione del codice.
+\subsection{Dataset}
+Prima di iniziare a descrivere l'algoritmo è necessario procedere con una fase pregressa, ossia quella di normalizzazione del testo. Innanzitutto tutti i testi che andremo ad usare saranno in lingua inglese e sono estratti da testi provenienti da \textit{Gutenberg Project}, un sito che permette l'accesso gratuito a numerosi testi della letteratura inglese in formato UTF-8. Un'ecccezione è rappresentata dal dataset \textit{text8 dataset} che è una collezione della dimensione di 100 MB, di testo estratto da Wikipedia. Per poter avere a disposizione un file di dimensione a piacere abbiamo creato uno script \lstinline{create_large_corpus} che permette di copiare il testo contenuto in un file per un numero desiderato di volte all'interno di un altro file. I file a cui si fa riferimento sono in formato \textit{.txt} e non sono presenti all'interno del repository, ma sono facilmente reperibili.
+\subsection{Normalizzazione}
+Una volta estratto il testo questo viene sottoposto ad un processo di normalizzazione, in modo da ridurre la dimensione del dizionario complessivo e rendere più facile l'individuazione degli n-grams, questo viene fatto tramite le funzioni \lstinline{clean_chars} e \lstinline{clean_words}.
+Nello specifico queste eliminano tutti i caratteri in maiuscolo, rimuovono la punteggiatura e nel caso dei caratteri eliminano tutti gli spazi fra parole diverse.
 
-\subsection{OpenMP directives}
-Prima di iniziare con l'analisi del codice è utile vedere le direttive che andrò ad utilizzare per parallelizzare l'algoritmo nel progetto. Grazie a questo particolare tipo di istruzioni presenti in \textit{OpenMP} è possibile creare multipli threads così da velocizzare l'esecuzione del codice, di seguito le direttive che ho usato. 
-\begin{itemize}
-   \item \lstinline{#pragma omp parallel}: Grazie a questa istruzione è possibile generare multipli threads all'interno del programma.
-   \item \lstinline{#pragma omp for} : the \textit{omp for} directive instructs the compiler to distribute loop iterations within the team of threads that encounters this work-sharing construct.
-   \item \lstinline{#pragma omp critical}: The \textit{omp critical} directive identifies a section of code that must be executed by a single thread at a time.
-\end{itemize}
-Grazie a queste direttive non solo riusciremo a parallelizzare il codice, ma anche ad evitare problemi che potrebbero nascere proprio a causa della parallelizzazione.
+\subsection{Counter}
+Come abbiamo visto lo scopo principale del progetto è contare le occorrenze degli n-grams, ed è importante notare come nel caso di testo dell'ordine dei GB è necessaria una struttura dati che ci permetta di memorizzare le istanze presenti nel dizionario in modo efficiente. Per questo all'interno del progetto viene usata la struttura dati \lstinline{Counter}, questa è una Hash Map, che permette di accedere allo slot di memoria relativo ad un n-gram, senza dover scorrere la lista di tutti gli n-gram. Inoltre vedremo che questa struttura dati ci permetterà di sommare con semplicità i contatori parziali della versione parallela del codice.
 
 \subsection{Sequential version}
-Iniziamo l'analisi con la versione sequenziale dell'algoritmo K-Means. L'algoritmo è molto noto in letteratura e come detto prima è formato da tre parti principali. L'algoritmo è stato scritto in modo tale da potersi adattare alla versione parallela con poche aggiunte (principalmente le direttive \textit{OpenMP}).
-
-\begin{lstlisting}[caption={Esempio di parallelizzazione del ciclo di assegnamento.}, label={lst:openmp}]
-#pragma omp parallel for private(i, j) shared(points, centroids)
-for (i = 0; i < num_points; i++) {
-    double min_dist = __DBL_MAX__;
-    for (j = 0; j < K; j++) {
-        double d = euclidean_distance(points[i], centroids[j]);
-        if (d < min_dist) {
-            min_dist = d;
-            points[i].cluster = j;
-        }
-    }
-}
+Iniziamo l'analisi con la versione sequenziale dell'algoritmo.
+Il codice per la versione sequenziale è contenuto nel file \lstinline{sequential_counter} ed è formato da due fasi principali:
+\begin{itemize}
+   \item Estrazione degli n-grams
+   \item Conteggio delle occorrenze all'interno del testo
+\end{itemize}
+Di seguito vediamo le funzioni che svolgono questo compito, nel caso del conteggio dei bigrams formati da caratteri vicini.
+\begin{lstlisting}[caption={Estrazione degli n-grams sequenziale.}]
+def get_ngrams(seq, n):
+    ngrams_list = []
+    limit = len(seq) - n + 1
+    for i in range(limit):
+        slice = seq[i : i+n]
+        ngram_tuple = tuple(slice)
+        ngrams_list.append(ngram_tuple)
+    return ngrams_list
 \end{lstlisting}
+
+\begin{lstlisting}[caption={Conteggio dei bi-grams}]
+def compute_bigrams(chars):
+    b_chars = Counter(get_ngrams(chars, 2))
+    return b_chars
+\end{lstlisting}
+
+La prima funzione prende in input il testo che ha già subito la fase di preprocessing e la dimensione di n-grams desiderati (2 per i bi-grams, 3 per i tri-grams...). Poi scorrendo tutta la sequenza di testo estrae sottosequenze di caratteri lunghe quanto il parametro \textit{n}, convertendole in tuple. Successivamente crea una lista contenente tutte le tuple.
+La funzione \lstinline{compute_bigrams}, sfrutta \lstinline{get_ngrams} incapsulando la lista ritornata in un contatore che provvederà a contare le occorrenze.
+
+
 
 
 
