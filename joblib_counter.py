@@ -9,14 +9,11 @@ from chunker import get_chunks
 from save_csv import save_csv
 
 def get_ngrams(seq, n):
-    lista_ngrammi = []
     limite = len(seq) - n + 1
     for i in range(limite):
         fetta = seq[i : i+n]
-        lista_ngrammi.append(tuple(fetta))
-    return lista_ngrammi
+        yield tuple(fetta)
 
-# --- FUNZIONI WORKER ---
 def process_chunk_bigrams(chunk):
     return Counter(get_ngrams(chunk, 2))
 
@@ -27,7 +24,9 @@ def process_chunk_trigrams(chunk):
 def compute_bigrams_joblib(chars, num_cores):
     """Suddivide il testo e calcola i bigrammi in parallelo con Joblib."""
     chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
-    partial_counters_b = Parallel(n_jobs=num_cores)(
+    
+    # Aggiunto batch_size='auto' per l'ottimizzazione intelligente del carico
+    partial_counters_b = Parallel(n_jobs=num_cores, batch_size='auto')(
         delayed(process_chunk_bigrams)(chunk) for chunk in chunks_b
     )
     return sum(partial_counters_b, Counter())
@@ -35,7 +34,9 @@ def compute_bigrams_joblib(chars, num_cores):
 def compute_trigrams_joblib(chars, num_cores):
     """Suddivide il testo e calcola i trigrammi in parallelo con Joblib."""
     chunks_t = get_chunks(chars, num_chunks=num_cores, max_ngram_size=3)
-    partial_counters_t = Parallel(n_jobs=num_cores)(
+    
+    # Aggiunto batch_size='auto' per l'ottimizzazione intelligente del carico
+    partial_counters_t = Parallel(n_jobs=num_cores, batch_size='auto')(
         delayed(process_chunk_trigrams)(chunk) for chunk in chunks_t
     )
     return sum(partial_counters_t, Counter())

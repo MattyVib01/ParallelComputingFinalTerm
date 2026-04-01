@@ -7,22 +7,23 @@ from cleaner import clean_chars
 from chunker import get_chunks
 from save_csv import save_csv
 
+
+# 1. Aggiorniamo get_ngrams con il generatore (yield)
 def get_ngrams(seq, n):
-    lista_ngrammi = []
     limite = len(seq) - n + 1
     for i in range(limite):
         fetta = seq[i : i+n]
-        lista_ngrammi.append(tuple(fetta))
-    return lista_ngrammi
+        yield tuple(fetta)
 
-# --- FUNZIONI WORKER ---
+# --- FUNZIONI WORKER (Rimangono IDENTICHE!) ---
 def process_chunk_bigrams(chunk):
+    # Il Counter "succhia" i dati dal generatore un elemento alla volta
     return Counter(get_ngrams(chunk, 2))
 
 def process_chunk_trigrams(chunk):
     return Counter(get_ngrams(chunk, 3))
 
-# --- FUNZIONI DI CALCOLO PARALLELO ---
+# --- FUNZIONI DI CALCOLO PARALLELO (Rimangono IDENTICHE!) ---
 def compute_bigrams_parallel(chars, num_cores):
     """Suddivide il testo e calcola i bigrammi in parallelo."""
     chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
