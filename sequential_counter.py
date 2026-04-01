@@ -5,14 +5,13 @@ from collections import Counter
 from cleaner import clean_chars
 from save_csv import save_csv
 
+from collections import Counter
+
 def get_ngrams(seq, n):
-    lista_ngrammi = []
     limite = len(seq) - n + 1
     for i in range(limite):
-        fetta = seq[i : i+n]
-        ngramma_tupla = tuple(fetta)
-        lista_ngrammi.append(ngramma_tupla)
-    return lista_ngrammi
+        sl = seq[i : i+n]
+        yield tuple(sl)
 
 def compute_bigrams(chars):
     b_chars = Counter(get_ngrams(chars, 2))
@@ -23,7 +22,7 @@ def compute_trigrams(chars):
     return t_chars
 
 if __name__ == '__main__':
-    file_path = os.path.join('texts', 'text1.txt')
+    file_path = os.path.join('texts', 'text1_large.txt')
 
     print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
