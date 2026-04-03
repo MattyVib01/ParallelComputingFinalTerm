@@ -172,7 +172,65 @@ def compute_bigrams_parallel(chars, num_cores):
 Il codice è suddiviso in due parti principali, in linea con il paradigma Map-Reduce. Nella prima parte il file viene diviso in un numero di chunk pari al numero di cores che si vogliono usare, successivamente vengono creati \textit{numcores} processi separati e tramite la funzione \lstinline{map} viene assegnato ad ogni core un chunk e viene applicata la funzione che conta le occorrenze degli n-grams. Nella seconda parte, viene fatta la fase di Reduce, dove si andranno a sommare i contatori parziali di ogni core.
 
 \subsubsection{JobLib}
-Come altro metodo 
+Come altro metodo abbiamo implementato il task tramite JobLib, anche in questo caso sia per gli n-gram di caratteri che per quelli di parole. Lo scopo di questo esperimento è vedere se tramite esperimenti con dimensioni di file più grandi si notano variazioni nelle performance fra metodi diversi di parallelizzazione. In questo caso la funzione per ottenere i chunk non subisce alcuna modifica rispetto a quella illustrata prima. Andiamo quindi a vedere come avviene il conteggio degli n-grams.
+
+\begin{lstlisting}[caption={Calcolo degi n-grams con JobLib.}]
+def compute_bigrams_joblib(chars, num_cores):
+    chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
+    partial_counters_b = Parallel(n_jobs=num_cores, batch_size='auto')(
+        delayed(process_chunk_bigrams)(chunk) for chunk in chunks_b
+    )
+    return sum(partial_counters_b, Counter())
+\end{lstlisting}
+
+Come possiamo vedere il codice scritto sfruttando \textit{JobLib} presenta una sintassi diversa rispetto a quello scritto con \textit{Multiprocessing}. La parte principale del codice è quella usata per costruire il contatore parziale, ossia \textit{Parallel}. A questa vengono indicati il numero di core e tramite il parametro \textit{batchsize} impostato ad \textit{auto} indichiamo l'ottimizzazione intelligente del carico, che vedremo risultare molto utile successivamente. Nelle parentesi seguenti viene indicato il modo con cui eseguire l'esecuzione, tramite il costrutto \textit{delayed}; questo permette di non eseguire immediatamente l'esecuzione, in modo da attendere che i processi vengano assegnati ai core.
+
+
+%-------------------------------------------------------------------------
+
+\section{Esperimenti}
+Iniziamo adesso la sezione del report che riguarda gli esperimenti effettuati, abbiamo visto come i tre diversi tipi di implementazione variano, adesso vediamo quanto queste variano a livello di prestazioni.
+Gli esperimenti sono stati fatti sui seguenti testi:
+\begin{itemize}
+    \item Frankestein - Mary Shelley (78099 parole)
+    \item Frankestein - Mary Shelley ripetuto per 50 volte (3.904.950 parole)
+    \item Dataset "text8" (100 MB - 17.057.642 parole)
+\end{itemize}
+\subsection{Sequenziale vs Parallelo}
+Come prima esperimento valutiamo le tre versioni in termini di tempo di esecuzione e speedup nel caso in cui nelle versioni parallele si vadano a creare chunk tutti della stessa dimensione, ossia del numero di caratteri/parole totali diviso il numero di core. Ed usiamo un numero di core pari a 4 in entrambe le versioni.
+
+%table (Testo x Modalità X Caratteri/Parole X execTime/speedup con fissi 4 core)
+
+Come è possibile vedere dalle tabelle sia nel caso in cui viene fatto l'n-gram di caratteri,che quello di parole, le prestazioni di entrambe le versioni parallele risultano migliori di quella sequenziale per quanto riguarda i testi lunghi. Per il solo testo di "Frankestein" le performance sono quasi uguali come tempo di esecuzione, con un leggero vantaggio della versione sequenziale. In questi casi il tempo impiegato per le operazioni di preprocessing (chunking e assegnazione) è paragonabile al tempo necessario ad eseguire il task, rendendo la parallelizzazione superflua.
+E' interessante invece notare nei testi di grande dimensione che lo speedup fra le due versioni parallele non varia molto, questo poichè ancora non abbiamo sfruttato le potenzialità offerte da \textit{JobLib}
+
+
+\subsection{Quanto mi spingo con i core}
+Valutiamo adesso le due versione parallele, sullo stesso task svolto in precedenza, ma stavolta all'aumentare del numero di core utilizzati. Questo ci permetterà di valutare la configurazione ottimale con cui andare a fare il prossimo esperimento. Andiamo quindi a mostrare tempi di esecuzione e speedup ottenuto sul dataset "text8".
+
+%table core X multiprocessing vs joblib X execTime-speedup sul dataset text8 caratteri.
+
+Possiamo notare nella tabella come per \textit{Multiprocessing} le migliori performance si ottengano con 8 core mentre con \textit{JobLib} con X core. Infatti se aumentiamo ulteriormente i valori di questo parametro, otteniamo risultati che non migliorano, raggiungendo il limite teorico imposto dalla Legge di Amdahl.
+Ancora una volta possiamo notare che l'utilizzo di una tecnica invece di un'altra non mostra differenze significative.
+
+\subsection{Stress Test Multiprocessing vs JobLib}
+Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.
+
+%-------------------------------------------------------------------------
+
+\section{Risultati}
+
+%-------------------------------------------------------------------------
+
+\section{Conclusioni}
+
+%-------------------------------------------------------------------------
+
+\section{Specifiche della macchina}
+
+
+
+
 
 
 

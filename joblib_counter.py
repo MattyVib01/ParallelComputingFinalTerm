@@ -22,7 +22,6 @@ def process_chunk_trigrams(chunk):
 
 # --- FUNZIONI DI CALCOLO PARALLELO (JOBLIB) ---
 def compute_bigrams_joblib(chars, num_cores):
-    """Suddivide il testo e calcola i bigrammi in parallelo con Joblib."""
     chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
     
     # Aggiunto batch_size='auto' per l'ottimizzazione intelligente del carico
