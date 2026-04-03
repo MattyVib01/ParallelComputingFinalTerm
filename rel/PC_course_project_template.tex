@@ -125,7 +125,7 @@ def compute_bigrams(chars):
 La prima funzione prende in input il testo che ha già subito la fase di preprocessing e la dimensione di n-grams desiderati (2 per i bi-grams, 3 per i tri-grams...). Poi scorrendo tutta la sequenza di testo estrae sottosequenze di caratteri lunghe quanto il parametro \textit{n}, convertendole in tuple. Successivamente tramite il costrutto "yield" restituisce l'ngram generato alla funzione \lstinline{get_ngrams} che si occupa di allocare la locazione di memoria che permette di contare le occorrenze nel caso sia un nuova n-grams, mentre aggiornerà il contatore per quelli che sono già presenti nella struttura dati.
 L'uso del costrutto \lstinline{yield} è stato cruciale per quanto riguarda l'ottimizzazione del codice. Una prima soluzione era stata quella di inserire ogni n-gram trovato all'interno di una lista e poi passarla al Counter per permettere di contare le occorrenze; questo presentava problemi nel caso di corpus di dimensioni molto elevate. L'operazione di inserimento costringe a dover scorrere tutta la lista e quando il numero di n-grams è elevato, l'operazione diventa molto costosa. In questo modo invece ad ogni ciclo il codice si interrompe per passare l'n-gram alla funzione che ne andrà a fare l'hashing. Il codice sequenziale pertanto risulta semplice, ma riesce a svolgere il task senza problemi.
 
-\subsection{Multiprocessing version}
+\subsection{Parallel version}
 Dopo aver implementato la versione sequenziale del codice vediamo adesso come è possibile passare ad una versione parallela. La versione parallela è stata sviluppata mediante due librerie diverse che abbiamo visto durante le lezioni del corso:
 \begin{itemize}
    \item Multiprocessing: La libreria nativa di Python, permette di aggirare il GIL, andando a creare dei processi figli del programma originale.
@@ -134,6 +134,46 @@ Dopo aver implementato la versione sequenziale del codice vediamo adesso come è
 
 Iniziamo l'analisi dal paredigma utilizato per fare il codice, ossia MapReduce. In questo approcco si divide il task in due fasi primitive denominate Map e Reduce applicate a coppie chiave-valore.Nella fase di Map, una funzione di mapping viene applicata in parallelo ad ogni split del dataset, dando in output delle coppie chiave-valore. Successivamente le coppie intermedie vengono raggruppate per chiave. Infine una funzione Reduce aggrega i risultati intermedi.
 Nel caso del conteggio degli n-grams la fase di Map individua gli n-grams presenti in ogni split del dataset, successivamente si procederà al conteggio parziale e infine la funzione Reduce andrà a sommare i risultati parziali. Il nostro obiettivo quindi è suddividere il testo totale in chunk della stessa grandezza, assegnare ogni chunk ad un core, far contare le occorrenze degli n-grams ad ogni core nel proprio chunk ed infine sommare tutti i risultati ottenuti da ogni core.
+
+\subsubsection{Multiprocessing}
+Il primo metodo usato per sviluppare la versione parallela è attraverso l'utilizzo di \textit{Multiprocessing}. Si noti che per tutte le versioni parallele il metodo \lstinline{get_ngrams} resta uguale alla versione sequenziale e lo stesso vale per le funzioni che calcolano bigrams e trigrams. Questo succede perchè il nostro approccio consiste nel dividere il testo in molteplici chunk e applicare gli stessi metodi su questi, invece che sull'intero testo.
+E' necessaria pertanto delle funzioni che si occupino di queste operazioni. In particolare della creazione dei chunk e dell'assegnazione dei processi ad ogni core.
+Andiamo a vedere innanzitutto la funzione che crea i chunk.
+
+\begin{lstlisting}[caption={Creazione di chunk di testo.}]
+def get_chunks(cleaned_text, num_chunks, max_ngram_size=3):
+    chunk_size = len(cleaned_text) // num_chunks
+    chunks = []
+    overlap = max_ngram_size - 1
+
+    for i in range(num_chunks):
+        start = i * chunk_size
+        if i == num_chunks - 1:
+            end = len(cleaned_text)
+        else:
+            end = (i + 1) * chunk_size + overlap
+        sl = cleaned_text[start:end]
+        chunks.append(sl)
+        
+    return chunks
+\end{lstlisting}
+
+Il codice andrà quindi a creare dei chunk del testo completo di dimensione uguale, che andranno divisi fra i vari core. Un aspetto importante riguarda la gestione dell'overlap fra i diversi chunk. Infatti dividendo in modo netto un chunk da un altro si andranno a perdere gli n-gram i cui caratteri si trovano alcuni in un chunk e altri nel successivo. Per risolvere il problema è stato aggiunto un parametro overlap che andrà a considerare nel caso in cui ci trovassimo alla fine di un chunk anche i successivi caratteri.\par
+Adesso soffermiamoci sulla porzione di codice che implementa la divisione del task fra i vari core e che fa uso di \textit{Multiprocessing}. In particolare forniamo la versione dei bigram di caratteri, il codice delle altre versioni si trova su Github ma è analogo a questo.
+
+\begin{lstlisting}[caption={Calcolo degi n-grams con Multiprocessing.}]
+def compute_bigrams_parallel(chars, num_cores):
+    chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
+    with multiprocessing.Pool(processes=num_cores) as pool:
+        partial_counters_b = pool.map(process_chunk_bigrams, chunks_b)
+    return sum(partial_counters_b, Counter())
+\end{lstlisting}
+
+Il codice è suddiviso in due parti principali, in linea con il paradigma Map-Reduce. Nella prima parte il file viene diviso in un numero di chunk pari al numero di cores che si vogliono usare, successivamente vengono creati \textit{numcores} processi separati e tramite la funzione \lstinline{map} viene assegnato ad ogni core un chunk e viene applicata la funzione che conta le occorrenze degli n-grams. Nella seconda parte, viene fatta la fase di Reduce, dove si andranno a sommare i contatori parziali di ogni core.
+
+\subsubsection{JobLib}
+
+
 
 
 

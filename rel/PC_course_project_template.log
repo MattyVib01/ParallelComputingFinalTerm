@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  1 APR 2026 12:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  3 APR 2026 10:40
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -293,21 +293,16 @@ Package pdftex.def Info: img1.png  used on input line 80.
 LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 107.
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-) [2]
+) [2] [3]
 
-LaTeX Warning: Reference `fig:onecol' on page 3 undefined on input line 251.
+LaTeX Warning: Reference `fig:onecol' on page 4 undefined on input line 288.
 
-
-Underfull \vbox (badness 4608) has occurred while \output is active []
-
- [3] (PC_course_project_template.bbl
+[4] (PC_course_project_template.bbl
 Underfull \hbox (badness 3668) in paragraph at lines 19--23
 []\OT1/ptm/m/n/9 Authors.  The frob-ni-ca-ta-ble foo fil-ter, 2006.  EC-
  []
 
-) [4] [5
-
-] (PC_course_project_template.aux)
+) [5] (PC_course_project_template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
@@ -318,15 +313,15 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 6824 strings out of 474486
- 101839 string characters out of 5743754
- 1995542 words of memory out of 5000000
- 29005 multiletter control sequences out of 15000+600000
+ 6845 strings out of 474486
+ 102145 string characters out of 5743754
+ 2056542 words of memory out of 5000000
+ 29026 multiletter control sequences out of 15000+600000
  589871 words of font info for 101 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,9n,79p,1018b,1210s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,9n,79p,1018b,1570s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PC_course_project_template.pdf (5 pages, 161270 bytes).
+Output written on PC_course_project_template.pdf (5 pages, 165162 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

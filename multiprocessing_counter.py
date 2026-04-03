@@ -23,9 +23,8 @@ def process_chunk_bigrams(chunk):
 def process_chunk_trigrams(chunk):
     return Counter(get_ngrams(chunk, 3))
 
-# --- FUNZIONI DI CALCOLO PARALLELO (Rimangono IDENTICHE!) ---
+
 def compute_bigrams_parallel(chars, num_cores):
-    """Suddivide il testo e calcola i bigrammi in parallelo."""
     chunks_b = get_chunks(chars, num_chunks=num_cores, max_ngram_size=2)
     with multiprocessing.Pool(processes=num_cores) as pool:
         partial_counters_b = pool.map(process_chunk_bigrams, chunks_b)
