@@ -172,7 +172,7 @@ def compute_bigrams_parallel(chars, num_cores):
 Il codice è suddiviso in due parti principali, in linea con il paradigma Map-Reduce. Nella prima parte il file viene diviso in un numero di chunk pari al numero di cores che si vogliono usare, successivamente vengono creati \textit{numcores} processi separati e tramite la funzione \lstinline{map} viene assegnato ad ogni core un chunk e viene applicata la funzione che conta le occorrenze degli n-grams. Nella seconda parte, viene fatta la fase di Reduce, dove si andranno a sommare i contatori parziali di ogni core.
 
 \subsubsection{JobLib}
-
+Come altro metodo 
 
 
 

@@ -2,7 +2,7 @@ import time
 import os
 import csv
 from collections import Counter
-from cleaner import clean_chars
+from cleaner import clean_chars, clean_words
 from save_csv import save_csv
 
 from collections import Counter
@@ -22,12 +22,12 @@ def compute_trigrams(chars):
     return t_chars
 
 if __name__ == '__main__':
-    file_path = os.path.join('texts', 'text1_large.txt')
+    file_path = os.path.join('texts', 'text1.txt')
 
     print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
         text = f.read()
-    chars = clean_chars(text)
+    chars = clean_words(text)
     
     print("Calcolo dei Bigrammi...")
     start_b = time.perf_counter()
@@ -43,9 +43,9 @@ if __name__ == '__main__':
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
     
-    save_csv(file_path, 1, "sequential", tempo_b, tempo_t)
+    save_csv(file_path, 1, "sequential_words", tempo_b, tempo_t)    #MODIFICA IL CSV
     print("Tempi salvati correttamente nel file csv")
     
     # Stampa di verifica dei risultati
-    #print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5)) 
-    #print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
+    print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5)) 
+    print("Top 5 Trigrammi di caratteri:", tc.most_common(5))

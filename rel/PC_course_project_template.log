@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  3 APR 2026 10:40
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  3 APR 2026 10:58
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -295,7 +295,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 10
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [2] [3]
 
-LaTeX Warning: Reference `fig:onecol' on page 4 undefined on input line 288.
+LaTeX Warning: Reference `fig:onecol' on page 4 undefined on input line 291.
 
 [4] (PC_course_project_template.bbl
 Underfull \hbox (badness 3668) in paragraph at lines 19--23
@@ -321,7 +321,7 @@ Here is how much of TeX's memory you used:
  1141 hyphenation exceptions out of 8191
  72i,9n,79p,1018b,1570s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PC_course_project_template.pdf (5 pages, 165162 bytes).
+Output written on PC_course_project_template.pdf (5 pages, 165535 bytes).
 PDF statistics:
  72 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
