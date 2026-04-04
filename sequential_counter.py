@@ -21,9 +21,10 @@ def compute_trigrams(chars):
     t_chars = Counter(get_ngrams(chars, 3))
     return t_chars
 
-if __name__ == '__main__':
-    file_path = os.path.join('texts', 'text1.txt')
+def run_analysis(execution_id):
+    file_path = os.path.join('texts', 'text1_maxi.txt')
 
+    print(f"--- Esecuzione {execution_id} ---")
     print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
         text = f.read()
@@ -43,9 +44,13 @@ if __name__ == '__main__':
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
     
-    save_csv(file_path, 1, "sequential_words", tempo_b, tempo_t)    #MODIFICA IL CSV
-    print("Tempi salvati correttamente nel file csv")
-    
+    save_csv(file_path,1,"sequential_words", tempo_b, tempo_t)
+    print("Tempi dell'esecuzione salvati correttamente.\n")
+
+if __name__ == '__main__':
+    # Esegui il codice 5 volte
+    for i in range(0, 1):
+        run_analysis(i)
     # Stampa di verifica dei risultati
-    print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5)) 
-    print("Top 5 Trigrammi di caratteri:", tc.most_common(5))
+    #print("\nTop 5 Bigrammi di caratteri:", bc.most_common(5)) 
+    #print("Top 5 Trigrammi di caratteri:", tc.most_common(5))

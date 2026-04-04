@@ -197,9 +197,25 @@ Gli esperimenti sono stati fatti sui seguenti testi:
     \item Dataset "text8" (100 MB - 17.057.642 parole)
 \end{itemize}
 \subsection{Sequenziale vs Parallelo}
-Come prima esperimento valutiamo le tre versioni in termini di tempo di esecuzione e speedup nel caso in cui nelle versioni parallele si vadano a creare chunk tutti della stessa dimensione, ossia del numero di caratteri/parole totali diviso il numero di core. Ed usiamo un numero di core pari a 4 in entrambe le versioni.
+Come prima esperimento valutiamo le tre versioni in termini di tempo di esecuzione e speedup nel caso in cui nelle versioni parallele si vadano a creare chunk tutti della stessa dimensione, ossia del numero di caratteri/parole totali diviso il numero di core. Ed usiamo un numero di core pari a 4 in tutte le versioni.
 
-%table (Testo x Modalità X Caratteri/Parole X execTime/speedup con fissi 4 core)
+%table (Testo x Modalità X execTime/speedup con fissi 4 core)
+\begin{table}[ht]
+\centering
+\caption{Confronto prestazioni: Sequenziale vs Parallelo (4 Core)}
+\label{tab:performance_comparison}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|cc|cc|cc|}
+\hline
+ & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
+\textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
+Sequenziale & 0.12 & 1.00x & 5.85 & 1.00x & 22.41 & 1.00x \\ \hline
+Multiprocessing & 0.15 & 0.80x & 1.95 & 3.00x & 7.22 & 3.10x \\ \hline
+JobLib & 0.18 & 0.66x & 2.10 & 2.78x & 7.05 & 3.17x \\ \hline
+\end{tabular}%
+}
+\end{table}
+
 
 Come è possibile vedere dalle tabelle sia nel caso in cui viene fatto l'n-gram di caratteri,che quello di parole, le prestazioni di entrambe le versioni parallele risultano migliori di quella sequenziale per quanto riguarda i testi lunghi. Per il solo testo di "Frankestein" le performance sono quasi uguali come tempo di esecuzione, con un leggero vantaggio della versione sequenziale. In questi casi il tempo impiegato per le operazioni di preprocessing (chunking e assegnazione) è paragonabile al tempo necessario ad eseguire il task, rendendo la parallelizzazione superflua.
 E' interessante invece notare nei testi di grande dimensione che lo speedup fra le due versioni parallele non varia molto, questo poichè ancora non abbiamo sfruttato le potenzialità offerte da \textit{JobLib}
@@ -214,7 +230,8 @@ Possiamo notare nella tabella come per \textit{Multiprocessing} le migliori perf
 Ancora una volta possiamo notare che l'utilizzo di una tecnica invece di un'altra non mostra differenze significative.
 
 \subsection{Stress Test Multiprocessing vs JobLib}
-Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.
+%%Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.%%
+
 
 %-------------------------------------------------------------------------
 
@@ -227,6 +244,8 @@ Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatt
 %-------------------------------------------------------------------------
 
 \section{Specifiche della macchina}
+
+
 
 
 
@@ -449,4 +468,27 @@ If your course project is part of a larger project from another class or researc
 \item Verify and confirm that you (and your partner currently taking CS231A) are the sole author(s) of the writeup.
 Please provide papers, theses, or other documents related to this project so that we can compare with your own writeup.
 \end{enumerate}
+
+
+\newpage
+% Usiamo l'asterisco per "rompere" le due colonne, 
+% ma senza forzare la larghezza massima
+\begin{table*}[t]
+\centering
+\small % Dimensione carattere leggermente ridotta per eleganza
+\setlength{\tabcolsep}{10pt} % Aumenta un po' lo spazio tra colonne per leggibilità
+\begin{tabular}{|l||cc|cc|cc|}
+\hline
+\textbf{Configurazione} & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Dataset Text8}} \\
+\cline{2-7}
+(4 Core) & Tempo (s) & Speedup & Tempo (s) & Speedup & Tempo (s) & Speedup \\ \hline \hline
+Sequenziale     & 0.12 & - & 5.85 & 1.00x & 22.41 & 1.00x \\ \hline
+Multiprocessing & 0.15 & - & 1.95 & 3.00x & 7.22  & 3.10x \\ \hline
+JobLib          & 0.18 & - & 2.10 & 2.78x & 7.05  & 3.17x \\ \hline
+\end{tabular}
+\caption{Analisi comparativa dei tempi di esecuzione e speedup relativo.}
+\label{tab:final_comparison_slim}
+\end{table*}
+
+
 \end{document}

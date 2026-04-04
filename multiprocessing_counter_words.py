@@ -36,7 +36,7 @@ def compute_trigrams_parallel(word_list, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text1.txt')
+    percorso = os.path.join('texts', 'text8.txt')
     
     # Se vuoi usare tutti i core, usa multiprocessing.cpu_count()
     core_da_testare = 8

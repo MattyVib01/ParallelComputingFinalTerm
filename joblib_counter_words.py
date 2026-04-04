@@ -38,7 +38,7 @@ def compute_trigrams_joblib(word_list, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text1.txt')
+    percorso = os.path.join('texts', 'text8.txt')
     
     # Se vuoi usare tutti i core, usa multiprocessing.cpu_count()
     core_da_testare = 8
@@ -67,7 +67,7 @@ if __name__ == '__main__':
     print(f"Completato in {tempo_t:.4f} secondi.\n")
 
     # 4. Salvataggio
-    save_csv(percorso, core_da_testare, "multiprocessing_words", tempo_b, tempo_t)
+    save_csv(percorso, core_da_testare, "joblib_words", tempo_b, tempo_t)
     print("Tempi salvati correttamente nel file csv")
     
     # Stampa di verifica dei risultati

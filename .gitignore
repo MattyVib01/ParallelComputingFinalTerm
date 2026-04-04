@@ -1,5 +1,8 @@
 texts/text8.txt
-texts/text1_large.txt
+texts/text2.txt
+texts/text3.txt
+texts
 results
 todo.md
 sbilanciamento.py
+__pycache__

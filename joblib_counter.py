@@ -42,7 +42,7 @@ def compute_trigrams_joblib(chars, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text1_large.txt')
+    percorso = os.path.join('texts', 'text2.txt')
     
     # Imposta qui quanti core vuoi testare (es. usa multiprocessing.cpu_count() per il massimo)
     core_da_testare = 8

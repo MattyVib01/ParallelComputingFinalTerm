@@ -39,10 +39,10 @@ def compute_trigrams_parallel(chars, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text1_large.txt')
+    percorso = os.path.join('texts', 'text2.txt')
     
     # Se vuoi usare tutti i core, usa multiprocessing.cpu_count()
-    core_da_testare = 8
+    core_da_testare = 4
     print(f"--- TEST MULTIPROCESSING CON {core_da_testare} CORE ---")
 
     # 1. Preprocessing (fuori dal conteggio del tempo, come nel sequenziale)
