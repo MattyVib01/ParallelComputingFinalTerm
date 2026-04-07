@@ -251,17 +251,17 @@ Procediamo ora con l'analisi degli esperimenti riguardanti gli n-gram di parole.
 %table (Testo x Modalità X execTime/speedup con fissi 4 core)
 \begin{table}[ht]
 \centering
-\caption{Confronto prestazioni nel calcolo dei Bi-gram di caratteri (8 Core)}
+\caption{Confronto prestazioni nel calcolo dei Bi-gram di parole (8 Core)}
 \label{tab:performance_comparison}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{|l|cc|cc|cc|}
 \hline
                 & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
 \textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
-Sequenziale     & 0.12     & -       & 5.32    & -       & 25.02    & -       \\ \hline
-Threading       & 0.10     & 1.2x    & 7.09     & 0.75x   & 27.78    & 0.90x   \\ \hline
-Multiprocessing & 0.22     & 0.54x   & 2.05     & 2.59x   & 11.74    & 2.13x   \\ \hline
-JobLib          & 0.24     & 0.50x   & 2.24     & 2.37x   & 11.92    & 2.09x   \\ \hline
+Sequenziale     & 0.02     & -       & 2.43    & -       &  14.66    & -       \\ \hline
+Threading       & 0.09     & 0.22x    & 2.38     & 1.02x   & 19.22    & 0.76x   \\ \hline
+Multiprocessing & 0.35     & 0.05x   & 1.59     & 1.52x   & 33.10    & 0.44x   \\ \hline
+JobLib          & 0.39     & 0.05x   & 1.62     & 1.5x   & 31.47    & 0.47x   \\ \hline
 \end{tabular}%
 }
 \end{table}
@@ -271,17 +271,17 @@ JobLib          & 0.24     & 0.50x   & 2.24     & 2.37x   & 11.92    & 2.09x   \
 
 \begin{table}[ht]
 \centering
-\caption{Confronto prestazioni nel calcolo dei Tri-gram di caratteri (8 Core)}
+\caption{Confronto prestazioni nel calcolo dei Tri-gram di parole (8 Core)}
 \label{tab:performance_comparison}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{|l|cc|cc|cc|}
 \hline
                 & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
 \textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
-Sequenziale     & 0.15     & -       & 5.85     & -       & 32.54    & -       \\ \hline
-Threading       & 0.14     & 1.07x    & 7.22     & 0.81x   & 33.06    & 0.98x   \\ \hline
-Multiprocessing & 0.18     & 0.83x   & 1.92     & 3.04x   & 16.89    & 1.92x   \\ \hline
-JobLib          & 0.17     & 0.88x   & 1.86     & 3,15x   & 16.47    & 1.97x   \\ \hline
+Sequenziale     & 0.03     & -       & 2.66     & -       & 15.22    & -       \\ \hline
+Threading       & 0.10     & 0.30x    & 2.61     & 1.01x   & 20.57    & 0.73x   \\ \hline
+Multiprocessing & 0.37     & 0.08x   & 1.78     & 1.49x   & 109.72    & 0.14x   \\ \hline
+JobLib          & 0.14     & 0.21x   & 1.83     & 1.45x   & 112.03    & 0.13x   \\ \hline
 \end{tabular}%
 }
 \end{table}
