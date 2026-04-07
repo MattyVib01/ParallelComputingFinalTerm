@@ -39,19 +39,19 @@ if __name__ == '__main__':
     percorso = os.path.join('texts', 'text8.txt')
     
     # Se vuoi usare tutti i core, usa multiprocessing.cpu_count()
-    core_da_testare = 8
+    core_da_testare = 4
     print(f"--- TEST MULTIPROCESSING CON {core_da_testare} CORE ---")
 
     # 1. Preprocessing (fuori dal conteggio del tempo, come nel sequenziale)
     print("Fase di preprocessing...")
     with open(percorso, 'r', encoding='utf-8') as f:
         text = f.read()
-    chars = clean_words(text)
+    words = clean_words(text)
     
     # 2. Calcolo Bigrammi
     print("Calcolo dei Bigrammi in parallelo...")
     start_b = time.perf_counter()
-    bc = compute_bigrams_parallel(chars, core_da_testare)
+    bc = compute_bigrams_parallel(words, core_da_testare)
     end_b = time.perf_counter()
     tempo_b = end_b - start_b
     print(f"Completato in {tempo_b:.4f} secondi.")
@@ -59,7 +59,7 @@ if __name__ == '__main__':
     # 3. Calcolo Trigrammi
     print("Calcolo dei Trigrammi in parallelo...")
     start_t = time.perf_counter()
-    tc = compute_trigrams_parallel(chars, core_da_testare)
+    tc = compute_trigrams_parallel(words, core_da_testare)
     end_t = time.perf_counter()
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")

@@ -4,7 +4,7 @@ import threading
 import queue
 from collections import Counter
 
-from cleaner import clean_chars
+from cleaner import clean_words
 from chunker import get_chunks
 from save_csv import save_csv
 
@@ -84,7 +84,7 @@ def compute_trigrams_threading_raw(chars, num_threads):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text8.txt')
+    percorso = os.path.join('texts', 'text2.txt')
     
     core_da_testare = 4
     print(f"--- TEST THREADING (RAW) CON {core_da_testare} THREAD ---")
@@ -92,22 +92,22 @@ if __name__ == '__main__':
     print("Fase di preprocessing...")
     with open(percorso, 'r', encoding='utf-8') as f:
         text = f.read()
-    chars = clean_chars(text)
+    words = clean_words(text)
     
     print("Calcolo dei Bigrammi (Raw Multi-Threading)...")
     start_b = time.perf_counter()
-    bc = compute_bigrams_threading_raw(chars, core_da_testare)
+    bc = compute_bigrams_threading_raw(words, core_da_testare)
     end_b = time.perf_counter()
     tempo_b = end_b - start_b
     print(f"Completato in {tempo_b:.4f} secondi.")
 
     print("Calcolo dei Trigrammi (Raw Multi-Threading)...")
     start_t = time.perf_counter()
-    tc = compute_trigrams_threading_raw(chars, core_da_testare)
+    tc = compute_trigrams_threading_raw(words, core_da_testare)
     end_t = time.perf_counter()
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
 
     # Salvataggio
-    save_csv(percorso, core_da_testare, "threading", tempo_b, tempo_t)
+    save_csv(percorso, core_da_testare, "threading_words", tempo_b, tempo_t)
     print("Tempi salvati correttamente nel file csv")

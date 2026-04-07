@@ -42,10 +42,10 @@ def compute_trigrams_joblib(chars, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text2.txt')
+    percorso = os.path.join('texts', 'text8.txt')
     
     # Imposta qui quanti core vuoi testare (es. usa multiprocessing.cpu_count() per il massimo)
-    core_da_testare = 8
+    core_da_testare = 4
     print(f"--- TEST JOBLIB CON {core_da_testare} CORE ---")
 
     # 1. Preprocessing (fuori dal conteggio del tempo)

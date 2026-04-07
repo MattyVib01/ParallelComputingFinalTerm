@@ -185,6 +185,8 @@ def compute_bigrams_joblib(chars, num_cores):
 
 Come possiamo vedere il codice scritto sfruttando \textit{JobLib} presenta una sintassi diversa rispetto a quello scritto con \textit{Multiprocessing}. La parte principale del codice è quella usata per costruire il contatore parziale, ossia \textit{Parallel}. A questa vengono indicati il numero di core e tramite il parametro \textit{batchsize} impostato ad \textit{auto} indichiamo l'ottimizzazione intelligente del carico, che vedremo risultare molto utile successivamente. Nelle parentesi seguenti viene indicato il modo con cui eseguire l'esecuzione, tramite il costrutto \textit{delayed}; questo permette di non eseguire immediatamente l'esecuzione, in modo da attendere che i processi vengano assegnati ai core.
 
+\subsubsection{Threading}
+L'ultimo metodo da analizzare è tramite \textit{Threading}, questo ho deciso di posizionarlo nel capitolo dedicato alle versioni parallele anche se vedremo che si differenzierà dagli altri due metodi. Le differenze principali sono che lo spazio di memoria fra i threads è condiviso, ma soprattutto è presente il meccanismo di context switching che permette ad un solo thread alla volta di svolgere il task.
 
 %-------------------------------------------------------------------------
 
@@ -196,33 +198,98 @@ Gli esperimenti sono stati fatti sui seguenti testi:
     \item Frankestein - Mary Shelley ripetuto per 50 volte (3.904.950 parole)
     \item Dataset "text8" (100 MB - 17.057.642 parole)
 \end{itemize}
-\subsection{Sequenziale vs Parallelo}
-Come prima esperimento valutiamo le tre versioni in termini di tempo di esecuzione e speedup nel caso in cui nelle versioni parallele si vadano a creare chunk tutti della stessa dimensione, ossia del numero di caratteri/parole totali diviso il numero di core. Ed usiamo un numero di core pari a 4 in tutte le versioni.
+\subsection{N-Gram di Caratteri}
+Valutiamo innanzitutto il calcolo delle occorrenze di n-gram di caratteri all'interno dei testi.
+Come primo esperimento valutiamo le quattro versioni in termini di tempo di esecuzione e speedup nel caso in cui nelle versioni parallele si vadano a creare chunk tutti della stessa dimensione, ossia del numero di caratteri totali diviso il numero di core. Ed usiamo un numero di core pari a 8 in tutte le versioni.
 
 %table (Testo x Modalità X execTime/speedup con fissi 4 core)
 \begin{table}[ht]
 \centering
-\caption{Confronto prestazioni: Sequenziale vs Parallelo (4 Core)}
+\caption{Confronto prestazioni nel calcolo dei Bi-gram di caratteri (8 Core)}
 \label{tab:performance_comparison}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{|l|cc|cc|cc|}
 \hline
- & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
+                & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
 \textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
-Sequenziale & 0.12 & 1.00x & 5.85 & 1.00x & 22.41 & 1.00x \\ \hline
-Multiprocessing & 0.15 & 0.80x & 1.95 & 3.00x & 7.22 & 3.10x \\ \hline
-JobLib & 0.18 & 0.66x & 2.10 & 2.78x & 7.05 & 3.17x \\ \hline
+Sequenziale     & 0.12     & -       & 5.32    & -       & 25.02    & -       \\ \hline
+Threading       & 0.10     & 1.2x    & 7.09     & 0.75x   & 27.78    & 0.90x   \\ \hline
+Multiprocessing & 0.22     & 0.54x   & 2.05     & 2.59x   & 11.74    & 2.13x   \\ \hline
+JobLib          & 0.24     & 0.50x   & 2.24     & 2.37x   & 11.92    & 2.09x   \\ \hline
 \end{tabular}%
 }
 \end{table}
 
 
-Come è possibile vedere dalle tabelle sia nel caso in cui viene fatto l'n-gram di caratteri,che quello di parole, le prestazioni di entrambe le versioni parallele risultano migliori di quella sequenziale per quanto riguarda i testi lunghi. Per il solo testo di "Frankestein" le performance sono quasi uguali come tempo di esecuzione, con un leggero vantaggio della versione sequenziale. In questi casi il tempo impiegato per le operazioni di preprocessing (chunking e assegnazione) è paragonabile al tempo necessario ad eseguire il task, rendendo la parallelizzazione superflua.
-E' interessante invece notare nei testi di grande dimensione che lo speedup fra le due versioni parallele non varia molto, questo poichè ancora non abbiamo sfruttato le potenzialità offerte da \textit{JobLib}
+
+
+\begin{table}[ht]
+\centering
+\caption{Confronto prestazioni nel calcolo dei Tri-gram di caratteri (8 Core)}
+\label{tab:performance_comparison}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|cc|cc|cc|}
+\hline
+                & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
+\textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
+Sequenziale     & 0.15     & -       & 5.85     & -       & 32.54    & -       \\ \hline
+Threading       & 0.14     & 1.07x    & 7.22     & 0.81x   & 33.06    & 0.98x   \\ \hline
+Multiprocessing & 0.18     & 0.83x   & 1.92     & 3.04x   & 16.89    & 1.92x   \\ \hline
+JobLib          & 0.17     & 0.88x   & 1.86     & 3,15x   & 16.47    & 1.97x   \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+
+Come è possibile vedere dalle tabelle nel caso in cui viene fatto l'n-gram di caratteri, le prestazioni di entrambe le versioni parallele risultano migliori di quella sequenziale per quanto riguarda i testi lunghi. Per il solo testo di "Frankestein" le performance sono quasi uguali come tempo di esecuzione, con un leggero vantaggio della versione sequenziale. In questi casi il tempo impiegato per le operazioni di preprocessing (chunking e assegnazione) è paragonabile al tempo necessario ad eseguire il task, rendendo la parallelizzazione superflua. Possiamo notare come il task riguardante i trigram ottenga benefici migliori dalla parallelizzazione sul dataset \textit{Frankestein x50}, ma vada a perdere su \textit{Text8}, questo a prima vista può sembrare un comportamento anomalo, di cui ci concentreremo nelle prossime sezioni
+E' interessante invece notare nei testi di grande dimensione che lo speedup fra le due versioni parallele dello stesso task non varia molto, e diversamente da quanto era possibile pensare all'aumentare della dimensione del dataset lo speedup non migliora; anche questo verrà analizzato in seguito. Per quanto riguarda la versione con \textit{Threading}, questa risulta essere al pari di quella sequenziale nel dataset più piccolo, ma peggiora drasticamente le performance con l'aumentare della dimensione. 
+
+\subsection{N-Gram di Parole}
+Procediamo ora con l'analisi degli esperimenti riguardanti gli n-gram di parole. Anche in questo caso ripetiamo gli stessi esperimenti di prima, non andando a variare il numero di core. 
+
+
+%table (Testo x Modalità X execTime/speedup con fissi 4 core)
+\begin{table}[ht]
+\centering
+\caption{Confronto prestazioni nel calcolo dei Bi-gram di caratteri (8 Core)}
+\label{tab:performance_comparison}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|cc|cc|cc|}
+\hline
+                & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
+\textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
+Sequenziale     & 0.12     & -       & 5.32    & -       & 25.02    & -       \\ \hline
+Threading       & 0.10     & 1.2x    & 7.09     & 0.75x   & 27.78    & 0.90x   \\ \hline
+Multiprocessing & 0.22     & 0.54x   & 2.05     & 2.59x   & 11.74    & 2.13x   \\ \hline
+JobLib          & 0.24     & 0.50x   & 2.24     & 2.37x   & 11.92    & 2.09x   \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+
+
+
+\begin{table}[ht]
+\centering
+\caption{Confronto prestazioni nel calcolo dei Tri-gram di caratteri (8 Core)}
+\label{tab:performance_comparison}
+\resizebox{\columnwidth}{!}{%
+\begin{tabular}{|l|cc|cc|cc|}
+\hline
+                & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Text8 (100MB)}} \\
+\textbf{Metodo} & Time (s) & Speedup & Time (s) & Speedup & Time (s) & Speedup \\ \hline \hline
+Sequenziale     & 0.15     & -       & 5.85     & -       & 32.54    & -       \\ \hline
+Threading       & 0.14     & 1.07x    & 7.22     & 0.81x   & 33.06    & 0.98x   \\ \hline
+Multiprocessing & 0.18     & 0.83x   & 1.92     & 3.04x   & 16.89    & 1.92x   \\ \hline
+JobLib          & 0.17     & 0.88x   & 1.86     & 3,15x   & 16.47    & 1.97x   \\ \hline
+\end{tabular}%
+}
+\end{table}
+
 
 
 \subsection{Quanto mi spingo con i core}
-Valutiamo adesso le due versione parallele, sullo stesso task svolto in precedenza, ma stavolta all'aumentare del numero di core utilizzati. Questo ci permetterà di valutare la configurazione ottimale con cui andare a fare il prossimo esperimento. Andiamo quindi a mostrare tempi di esecuzione e speedup ottenuto sul dataset "text8".
+Valutiamo adesso le due versione parallele, sullo stesso task svolto in precedenza, ma stavolta all'aumentare del numero di core utilizzati. Questo ci permetterà di valutare la configurazione ottimale con cui andare a fare il prossimo esperimento. Andiamo quindi a mostrare tempi di esecuzione e speedup ottenuto sul dataset \textit{text8}
 
 %table core X multiprocessing vs joblib X execTime-speedup sul dataset text8 caratteri.
 

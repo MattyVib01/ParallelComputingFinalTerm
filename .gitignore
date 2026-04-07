@@ -1,7 +1,4 @@
-texts/text8.txt
-texts/text2.txt
-texts/text3.txt
-texts
+texts/*.txt
 results
 todo.md
 sbilanciamento.py

@@ -22,13 +22,13 @@ def compute_trigrams(chars):
     return t_chars
 
 def run_analysis(execution_id):
-    file_path = os.path.join('texts', 'text1_maxi.txt')
+    file_path = os.path.join('texts', 'text8.txt')
 
     print(f"--- Esecuzione {execution_id} ---")
     print("Fase di preprocessing...")
     with open(file_path, 'r', encoding='utf-8') as f:
         text = f.read()
-    chars = clean_words(text)
+    chars = clean_chars(text)
     
     print("Calcolo dei Bigrammi...")
     start_b = time.perf_counter()
@@ -44,7 +44,7 @@ def run_analysis(execution_id):
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
     
-    save_csv(file_path,1,"sequential_words", tempo_b, tempo_t)
+    save_csv(file_path,1,"sequential", tempo_b, tempo_t)
     print("Tempi dell'esecuzione salvati correttamente.\n")
 
 if __name__ == '__main__':

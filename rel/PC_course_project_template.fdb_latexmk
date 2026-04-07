@@ -1,13 +1,13 @@
 # Fdb version 4
-["bibtex PC_course_project_template"] 1775313057.91388 "PC_course_project_template.aux" "PC_course_project_template.bbl" "PC_course_project_template" 1775313125.94236 0
+["bibtex PC_course_project_template"] 1775561141.22921 "PC_course_project_template.aux" "PC_course_project_template.bbl" "PC_course_project_template" 1775561143.17904 0
   "./egbib.bib" 1773331635 948 6db8b0f38be5de90ac9f8009b713f78d ""
   "./ieee.bst" 1773331635 20752 f9cd22458ca68af2567100f1aed905e8 ""
-  "PC_course_project_template.aux" 1775313125 5381 88fe5df50194acf61afd5cd01db2a31e "pdflatex"
+  "PC_course_project_template.aux" 1775561142 5716 61ffc82abd04806835af24a14847d764 "pdflatex"
   (generated)
   "PC_course_project_template.bbl"
   "PC_course_project_template.blg"
   (rewritten before read)
-["pdflatex"] 1775313124.18835 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1775313125.94325 0
+["pdflatex"] 1775561141.63243 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1775561143.17977 0
   "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1773331733 82507 a9eef8696c92627b87e9975edea03b2a ""
   "C:/Users/matti/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1760089577 24225047 511c4c92957775ce37541764e35af610 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
@@ -107,10 +107,10 @@
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1700599895 4545 9f5ea23ab1c91476c42749893f790666 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "PC_course_project_template.aux" 1775313125 5381 88fe5df50194acf61afd5cd01db2a31e "pdflatex"
-  "PC_course_project_template.bbl" 1775313058 682 5d431d1ced6572bf497f9f60ff467ebf "bibtex PC_course_project_template"
-  "PC_course_project_template.tex" 1775313123 29325 46d8cab142ecd5a937747a45ba35df87 ""
-  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" 1775313123 29325 46d8cab142ecd5a937747a45ba35df87 ""
+  "PC_course_project_template.aux" 1775561142 5716 61ffc82abd04806835af24a14847d764 "pdflatex"
+  "PC_course_project_template.bbl" 1775561141 682 5d431d1ced6572bf497f9f60ff467ebf "bibtex PC_course_project_template"
+  "PC_course_project_template.tex" 1775561138 31143 b2df9be2560ac96f28edeb08c1c73a33 ""
+  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" 1775561138 31143 b2df9be2560ac96f28edeb08c1c73a33 ""
   "cvpr.sty" 1773331635 8435 51b6483a72e0a50ce1e426c0920c8b85 ""
   "cvpr_eso.sty" 1773331636 3987 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1773331635 9727 d2935ae95b5cd343fcf5887ff530288d ""
