@@ -3,3 +3,5 @@ results
 todo.md
 sbilanciamento.py
 __pycache__
+create_scalability_plot.py
+create_plot.py

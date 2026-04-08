@@ -286,18 +286,50 @@ JobLib          & 0.14     & 0.21x   & 1.83     & 1.45x   & 112.03    & 0.13x   
 }
 \end{table}
 
+Le tabelle mostrano risultati interessanti e piuttosto inaspettati, differentemente da prima gli approcci paralleli non scalano con la dimensione del file, ma dipendono dalla dimensione del vocabolario.
+Su testi piccoli (Frankestein) non ci aspettavamo grandi differenze, poichè il tempo di esecuzione dell'algoritmo è molto breve.
+Nel dataset medio i due approcci paralleli superano quello sequenziale ottenendo uno speedup di circa 1.5x in entrambi i casi. Il caso più eclatante è quello che riguarda il dataset \textit{text8}. In questo scenario i metodi paralleli collassano impiegando più del doppio del tempo sui bi-gram rispetto alla versione sequenziale e quasi sette volte il tempo sui trigrammi.
+Questo è dovuto a due motivi principali: in primo luogo il dataset contiene un vocabolario vastissimo, che rende il numero di n-gram totali nell'ordine dei milioni. I processi al termine del calcolo devono inviare i risultati sotto forma di dizionario al processo principale, saturando le risorse del sistema operativo. Il secondo motivo è da ritrovarsi nella parte che opera il reduce; la fase di somma infatti costringe a effettuare continui cicli di allocazione e deallocazione nella RAM. Il tutto senza dubbio è confermato dall'incremento repentino fra bi-grammi e tri-grammi. Tutto questo è confermato dal grafico in Figura \ref{fig:profiling1} estratto da una fase di profiling effettuata sul codice che estrae i bi-grams di parole.
+
+\begin{figure}[t]
+\begin{center}
+   \includegraphics[width=0.9\linewidth]{grafico_profiling_text8.png}
+\end{center}
+   \caption{Profiling nel calcolo dei bi-gram di parole nel dataset \textit{text8}.}
+\label{fig:profiling1}
+\end{figure}
+
+Come è possibile vedere il calcolo effettivo, ovvero il conteggio del numero di occorrenze effettuato da ogni processo, impiega solo 7.07 secondi, che rappresenta il 22\% del tempo totale. Da notare che le inefficienze riscontrate con gli n-grams di parole svaniscono nel caso dei caratteri. Questo perchè, mentre il vocabolario di parole può crescere indefinitamente, il vocabolario dei caratteri è finito e di dimensione ristretta, infatti il numero di bigrammi massimo sarà $26^2=676$ e quello dei trigrammi $26^3=17576$.
+Questo dimostra chiaramente che per task memory-bound i costi dei trasferimenti dati in memoria annullano totalmente i benefici ottenuti dalla parallelizzazione.
 
 
-\subsection{Quanto mi spingo con i core}
-Valutiamo adesso le due versione parallele, sullo stesso task svolto in precedenza, ma stavolta all'aumentare del numero di core utilizzati. Questo ci permetterà di valutare la configurazione ottimale con cui andare a fare il prossimo esperimento. Andiamo quindi a mostrare tempi di esecuzione e speedup ottenuto sul dataset \textit{text8}
+\subsection{Scalabilità}
+Valutiamo adesso le versione \textit{Multiprocessing}, sullo stesso task svolto in precedenza, ma stavolta all'aumentare del numero di core utilizzati. Questo ci permetterà di valutare la configurazione ottimale con cui andare a fare il prossimo esperimento. Andiamo quindi a mostrare tempi di esecuzione e speedup ottenuto sul dataset \textit{Frankestein-x50}
 
-%table core X multiprocessing vs joblib X execTime-speedup sul dataset text8 caratteri.
+\begin{figure}[t]
+\begin{center}
+   \includegraphics[width=0.9\linewidth]{speed_up_text2.png}
+\end{center}
+   \caption{Speed-up al variare del numero di core sul Dataset \textit{Frankestein-x50} .}
+\label{fig:speeduptext2}
+\end{figure}
 
-Possiamo notare nella tabella come per \textit{Multiprocessing} le migliori performance si ottengano con 8 core mentre con \textit{JobLib} con X core. Infatti se aumentiamo ulteriormente i valori di questo parametro, otteniamo risultati che non migliorano, raggiungendo il limite teorico imposto dalla Legge di Amdahl.
-Ancora una volta possiamo notare che l'utilizzo di una tecnica invece di un'altra non mostra differenze significative.
+
+Possiamo notare nel grafico come per \textit{Multiprocessing} le migliori performance si ottengano con 8 core sia nel caso dei bi-gram, che in quello dei tri-gram. Infatti se aumentiamo ulteriormente i valori di questo parametro, otteniamo risultati che non migliorano, raggiungendo il limite teorico imposto dalla Legge di Amdahl.\par
+E' interessante anche il confronto della scalabilità sul dataset \textit{text8} per quanto riguarda il conteggio degli n-gram di caratteri. In questo caso, infatti vediamo un andamento molto più marcato, con un picco nella prestazioni in corrispondenza di 4 core, e successivamente un decremento molto rapido, dovuto probabilmente alla difficoltà di suddividere il testo fra processsi diversi, ma soprattutto alla fase di reduce, che fa sommare dizionari di dimensioni molto più grandi rispetto al dataset \textit{Frankenstein-x50}.
+
+\begin{figure}[t]
+\begin{center}
+   \includegraphics[width=0.9\linewidth]{speed_up_text8.png}
+\end{center}
+   \caption{Speed-up al variare del numero di core sul Dataset \textit{text8} .}
+\label{fig:speeduptext2}
+\end{figure}
+
+
 
 \subsection{Stress Test Multiprocessing vs JobLib}
-%%Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.%%
+Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.%%
 
 
 %-------------------------------------------------------------------------
