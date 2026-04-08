@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  8 APR 2026 11:47
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  8 APR 2026 13:11
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -231,9 +231,6 @@ LaTeX Warning: Label `tab:performance_comparison' multiply defined.
 
 LaTeX Warning: Label `tab:performance_comparison' multiply defined.
 
-
-LaTeX Warning: Label `fig:speeduptext2' multiply defined.
-
 )
 \openout1 = `PC_course_project_template.aux'.
 
@@ -307,7 +304,7 @@ LaTeX Font Info:    Trying to load font information for TS1+ptm on input line 10
  (C:\Users\matti\AppData\Local\Programs\MiKTeX\tex/latex/psnfss\ts1ptm.fd
 File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
 ) [2] [3]
-Underfull \hbox (badness 1275) in paragraph at lines 198--199
+Underfull \hbox (badness 1275) in paragraph at lines 226--227
 []\OT1/ptm/m/n/10 Frankestein - Ma-ry Shel-ley ri-pe-tu-to per 50 vol-te
  []
 
@@ -315,57 +312,45 @@ Underfull \hbox (badness 1275) in paragraph at lines 198--199
 <grafico_profiling_text8.png, id=21, 641.5167pt x 426.393pt>
 File: grafico_profiling_text8.png Graphic file (type png)
 <use grafico_profiling_text8.png>
-Package pdftex.def Info: grafico_profiling_text8.png  used on input line 296.
+Package pdftex.def Info: grafico_profiling_text8.png  used on input line 324.
 (pdftex.def)             Requested size: 213.4209pt x 141.85521pt.
 <speed_up_text2.png, id=22, 786.2976pt x 424.7067pt>
 File: speed_up_text2.png Graphic file (type png)
 <use speed_up_text2.png>
-Package pdftex.def Info: speed_up_text2.png  used on input line 311.
+Package pdftex.def Info: speed_up_text2.png  used on input line 339.
 (pdftex.def)             Requested size: 213.4209pt x 115.27501pt.
 <speed_up_text8.png, id=23, 714.0276pt x 424.7067pt>
 File: speed_up_text8.png Graphic file (type png)
 <use speed_up_text8.png>
-Package pdftex.def Info: speed_up_text8.png  used on input line 323.
+Package pdftex.def Info: speed_up_text8.png  used on input line 347.
 (pdftex.def)             Requested size: 213.4209pt x 126.93991pt.
-
-Underfull \vbox (badness 2680) has occurred while \output is active []
-
- [5 <./grafico_profiling_text8.png> <./speed_up_text2.png> <./speed_up_text8.png>]
-
-LaTeX Warning: Reference `fig:onecol' on page 6 undefined on input line 467.
-
-[6] (PC_course_project_template.bbl
-Underfull \hbox (badness 3668) in paragraph at lines 19--23
-[]\OT1/ptm/m/n/9 Authors.  The frob-ni-ca-ta-ble foo fil-ter, 2006.  EC-
+ [5 <./grafico_profiling_text8.png> <./speed_up_text2.png>]
+Underfull \hbox (badness 1755) in paragraph at lines 366--367
+\OT1/ptm/m/n/10 e N=200. E in nu-me-ro-se ese-cu-zio-ni con il da-ta-set
  []
 
-) [7] [8
-
-] [9] (PC_course_project_template.aux)
+[6 <./speed_up_text8.png>] (PC_course_project_template.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-04>
  ***********
 
 
-LaTeX Warning: There were undefined references.
-
-
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 6892 strings out of 474486
- 103097 string characters out of 5743754
- 2100542 words of memory out of 5000000
- 29067 multiletter control sequences out of 15000+600000
- 593387 words of font info for 110 fonts, out of 8000000 for 9000
+ 6858 strings out of 474486
+ 102409 string characters out of 5743754
+ 2101542 words of memory out of 5000000
+ 29049 multiletter control sequences out of 15000+600000
+ 583072 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  72i,10n,79p,1018b,1570s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PC_course_project_template.pdf (9 pages, 649507 bytes).
+<C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
+Output written on PC_course_project_template.pdf (6 pages, 603466 bytes).
 PDF statistics:
- 92 PDF objects out of 1000 (max. 8388607)
+ 61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -186,7 +186,35 @@ def compute_bigrams_joblib(chars, num_cores):
 Come possiamo vedere il codice scritto sfruttando \textit{JobLib} presenta una sintassi diversa rispetto a quello scritto con \textit{Multiprocessing}. La parte principale del codice è quella usata per costruire il contatore parziale, ossia \textit{Parallel}. A questa vengono indicati il numero di core e tramite il parametro \textit{batchsize} impostato ad \textit{auto} indichiamo l'ottimizzazione intelligente del carico, che vedremo risultare molto utile successivamente. Nelle parentesi seguenti viene indicato il modo con cui eseguire l'esecuzione, tramite il costrutto \textit{delayed}; questo permette di non eseguire immediatamente l'esecuzione, in modo da attendere che i processi vengano assegnati ai core.
 
 \subsubsection{Threading}
-L'ultimo metodo da analizzare è tramite \textit{Threading}, questo ho deciso di posizionarlo nel capitolo dedicato alle versioni parallele anche se vedremo che si differenzierà dagli altri due metodi. Le differenze principali sono che lo spazio di memoria fra i threads è condiviso, ma soprattutto è presente il meccanismo di context switching che permette ad un solo thread alla volta di svolgere il task.
+L'ultimo metodo da analizzare è tramite \textit{Threading}, questo ho deciso di posizionarlo nel capitolo dedicato alle versioni parallele anche se vedremo che si differenzierà dagli altri due metodi. Le differenze principali con i metodi che abbiamo visto sono: che lo spazio di memoria fra i threads è condiviso, ma soprattutto è presente il meccanismo di context switching che permette ad un solo thread alla volta di svolgere il task.
+Vediamo quindi come viene usato \textit{Threading} per implementare il conteggio degli n-grams, in particolare nel caso dei bi-grams.
+
+
+\begin{lstlisting}[caption={Calcolo degi n-grams con JobLib.}]
+def compute_bigrams_threading(chars, num_threads):
+    chunks_b = get_chunks(chars, num_chunks=num_threads, max_ngram_size=2)
+    res = queue.Queue()
+    threads = []
+
+    for chunk in chunks_b:
+        t = threading.Thread(
+            target=thread_worker, 
+            args=(process_chunk_bigrams, chunk, res)
+        )
+        threads.append(t)
+        t.start()
+        
+    for t in threads:
+        t.join()
+
+    partial_counters_b = []
+    while not res.empty():
+        partial_counters_b.append(res.get())
+        
+    return sum(partial_counters_b, Counter())
+\end{lstlisting}
+
+Dopo aver suddiviso il testo in chunks, è stato necessario implementare una coda condivisa, tramite \lstinline{queue.Queue()} che garantisce che non si verifichino condizioni di race condition fra threads. Successivamente si andrà a chiamare thread workers il cui unico scopo è di effettuare il conteggio e riportare il risultato all'interno della coda. Infine con il metodo join si vanno a eseguire i threads. Il codice continua con la parte di reduce che però non ho riprtato perchè poco interessante.
 
 %-------------------------------------------------------------------------
 
@@ -314,280 +342,53 @@ Valutiamo adesso le versione \textit{Multiprocessing}, sullo stesso task svolto 
 \label{fig:speeduptext2}
 \end{figure}
 
-
-Possiamo notare nel grafico come per \textit{Multiprocessing} le migliori performance si ottengano con 8 core sia nel caso dei bi-gram, che in quello dei tri-gram. Infatti se aumentiamo ulteriormente i valori di questo parametro, otteniamo risultati che non migliorano, raggiungendo il limite teorico imposto dalla Legge di Amdahl.\par
-E' interessante anche il confronto della scalabilità sul dataset \textit{text8} per quanto riguarda il conteggio degli n-gram di caratteri. In questo caso, infatti vediamo un andamento molto più marcato, con un picco nella prestazioni in corrispondenza di 4 core, e successivamente un decremento molto rapido, dovuto probabilmente alla difficoltà di suddividere il testo fra processsi diversi, ma soprattutto alla fase di reduce, che fa sommare dizionari di dimensioni molto più grandi rispetto al dataset \textit{Frankenstein-x50}.
-
 \begin{figure}[t]
 \begin{center}
    \includegraphics[width=0.9\linewidth]{speed_up_text8.png}
 \end{center}
    \caption{Speed-up al variare del numero di core sul Dataset \textit{text8} .}
-\label{fig:speeduptext2}
+\label{fig:speeduptext8}
 \end{figure}
 
+Possiamo notare nel grafico come per \textit{Multiprocessing} le migliori performance si ottengano con 8 core sia nel caso dei bi-gram, che in quello dei tri-gram. Infatti se aumentiamo ulteriormente i valori di questo parametro, otteniamo risultati che non migliorano, raggiungendo il limite teorico imposto dalla Legge di Amdahl.\par
+E' interessante anche il confronto della scalabilità sul dataset \textit{text8} per quanto riguarda il conteggio degli n-gram di caratteri. In questo caso, infatti vediamo un andamento molto più marcato, con un picco nella prestazioni in corrispondenza di 4 core, e successivamente un decremento molto rapido, dovuto probabilmente alla difficoltà di suddividere il testo fra processsi diversi, ma soprattutto alla fase di reduce, che fa sommare dizionari di dimensioni molto più grandi rispetto al dataset \textit{Frankenstein-x50}.
 
 
-\subsection{Stress Test Multiprocessing vs JobLib}
-Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.%%
 
 
-%-------------------------------------------------------------------------
 
-\section{Risultati}
+\subsection{Load Balancing}
+Procediamo ora con un esperimento che avvicina l'esperimento a quanto viene fatto solitamente nell'ambito del Natural Language Processing. Finora infatti abbiamo diviso in chunk in modo che avessero tutti uguale dimensione; nella realtà invece, spesso il testo viene diviso per capitoli o paragrafi che possono avere lunghezze diverse. Per questo andiamo a modificare la funzione \lstinline{get_chunks} in modo che suddivida i chunk del testo in modo asimmetrico. In particolare andremo a creare appositamente una situazione fortemente sbilanciata, dove i primi K chunk contengono l'80\% del testo, mentre gli altri N-K contengono il restante 20\%.
+Multiprocessing andrà quindi a dividere la lista dei task in blocchi di dimensione fissa, assegnando ogni task ad un core in modo casuale. Così facendo un worker può ottenere un blocco che contiene più chunk di dimensione grande, rendendolo così occupato per un tempo elevato.
+La libreria Joblib risolve questo problema utilizzando il parametro "batch\_size=auto", che attraverso un'euristica, assegna i task in modo dinamico a ogni worker.
+Il risultato è che nei casi in cui a un worker vengono assegnati più task di dimensione elevata questo potrà avere un overtime, dove gli altri processi non avranno nessun calcolo da effettuare.
+
+In particolare l'esperimento è stato effettuato con K=4 e N=200. E in numerose esecuzioni con il dataset \textit{Frankenstein-x50} il codice scrito con \textit{Multiprocessing} aveva questo problema, portando all'assegnazione di almeno due chunk grandi a uno stesso core e un conseguente aumento di tempo, fino al 31\% rispetto a \textit{JobLib}, che invece non presenta mai queata problematica. E' bene dire però che nel caso in cui a tutti i core viene assegnato lo stesso numero di chunk grandi, la differenza fra le due versioni è irrisoria.
+
 
 %-------------------------------------------------------------------------
 
 \section{Conclusioni}
-
+Il progetto ha quindi analizzato l'efficienza dell'operazione di estrazione degli n-grams, facendo un confronto fra versione sequenziale e varie strategie di parallelizzazione.
+Alla luce degli esperimenti condotti quindi, emergono le seguenti conclusioni:
+\begin{itemize}
+   \item L'elaborazione a livello di carattere si è dimostrata un'operazione molto veloce, che ha mostrato il lato positivo della parallelizzazione. Al contrario il conteggio degli n-grams di parole ci ha permesso di notare come, quando il costo di avvio dei processi paralleli supera il tempo stesso di calcolo, la soluzione sequenziale risulti la migliore
+   \item Gli esperimenti hanno dimostrato la limitatezza di \textit{Threading}. A causa del GIL infatti, i thread non possono eseguire del vero parallelismo, rendendoli inutili nell'estrazione degli n-grams. 
+   \item Nel caso in cui si vadano a creare dei chunk ben bilanciati non si riscontrano grandi differenze di prestazioni fra \textit{Multiprocessing} e \textit{JobLib}.
+   \item Nel caso in cui si abbia uno sbilanciamento del quantitativo di dati \textit{JobLib} risulta essere la scelta migliore, grazie a una miglior gestione dinamica del carico.
+\end{itemize}
 %-------------------------------------------------------------------------
 
 \section{Specifiche della macchina}
 
+\begin{itemize}
+   \item Processore 11th Gen Intel(R) Core(TM) i5-1135G7 @ 2.40GHz 2.42 GHz
+   \item RAM installata 8,00 GB (7,70 GB utilizzabile)
+   \item Sistema operativo Windows 11 a 64 bit, processore basato su x64
+   \item Ambiente di sviluppo: Visual Studio Code
+\end{itemize}
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%-------------------------------------------------------------------------
-\subsection{The ruler}
-
-
-\subsection{Mathematics}
-
-Please number all of your sections and displayed equations.  It is
-important for readers to be able to refer to any particular equation.  Just
-because you didn't refer to it in the text doesn't mean some future reader
-might not need to refer to it.  It is cumbersome to have to use
-circumlocutions like ``the equation second from the top of page 3 column
-1''.  (Note that the ruler will not be present in the final copy, so is not
-an alternative to equation numbers).  All authors will benefit from reading
-Mermin's description of how to write mathematics: \url{http://www.cvpr.org/doc/mermin.pdf}.
-
-\subsection{Miscellaneous}
-
-\noindent
-Compare the following:\\
-\begin{tabular}{ll}
- \verb'$conf_a$' &  $conf_a$ \\
- \verb'$\mathit{conf}_a$' & $\mathit{conf}_a$
-\end{tabular}\\
-See The \TeX book, p165.
-
-The space after \eg, meaning ``for example'', should not be a
-sentence-ending space. So \eg is correct, {\em e.g.} is not.  The provided
-\verb'\eg' macro takes care of this.
-
-When citing a multi-author paper, you may save space by using ``et alia'',
-shortened to ``\etal'' (not ``{\em et.\ al.}'' as ``{\em et}'' is a complete word.)
-However, use it only when there are three or more authors.  Thus, the
-following is correct: ``
-   Frobnication has been trendy lately.
-   It was introduced by Alpher~\cite{Alpher02}, and subsequently developed by
-   Alpher and Fotheringham-Smythe~\cite{Alpher03}, and Alpher \etal~\cite{Alpher04}.''
-
-This is incorrect: ``... subsequently developed by Alpher \etal~\cite{Alpher03} ...''
-because reference~\cite{Alpher03} has just two authors.  If you use the
-\verb'\etal' macro provided, then you need not worry about double periods
-when used at the end of a sentence as in Alpher \etal.
-
-For this citation style, keep multiple citations in numerical (not
-chronological) order, so prefer \cite{Alpher03,Alpher02,Authors06} to
-\cite{Alpher02,Alpher03,Authors06}.
-
-
-\begin{figure*}
-\begin{center}
-\fbox{\rule{0pt}{2in} \rule{.9\linewidth}{0pt}}
-\end{center}
-   \caption{Example of a short caption, which should be centered.}
-\label{fig:short}
-\end{figure*} 
-
-%------------------------------------------------------------------------
-\section{Formatting your paper}
-
-All text must be in a two-column format. The total allowable width of the
-text area is $6\frac78$ inches (17.5 cm) wide by $8\frac78$ inches (22.54
-cm) high. Columns are to be $3\frac14$ inches (8.25 cm) wide, with a
-$\frac{5}{16}$ inch (0.8 cm) space between them. The main title (on the
-first page) should begin 1.0 inch (2.54 cm) from the top edge of the
-page. The second and following pages should begin 1.0 inch (2.54 cm) from
-the top edge. On all pages, the bottom margin should be 1-1/8 inches (2.86
-cm) from the bottom edge of the page for $8.5 \times 11$-inch paper; for A4
-paper, approximately 1-5/8 inches (4.13 cm) from the bottom edge of the
-page.
-
-%-------------------------------------------------------------------------
-\subsection{Margins and page numbering}
-
-All printed material, including text, illustrations, and charts, must be
-kept within a print area 6-7/8 inches (17.5 cm) wide by 8-7/8 inches
-(22.54 cm) high.
-
-
-%-------------------------------------------------------------------------
-\subsection{Type-style and fonts}
-
-Wherever Times is specified, Times Roman may also be used. If neither is
-available on your word processor, please use the font closest in
-appearance to Times to which you have access.
-
-MAIN TITLE. Center the title 1-3/8 inches (3.49 cm) from the top edge of
-the first page. The title should be in Times 14-point, boldface type.
-Capitalize the first letter of nouns, pronouns, verbs, adjectives, and
-adverbs; do not capitalize articles, coordinate conjunctions, or
-prepositions (unless the title begins with such a word). Leave two blank
-lines after the title.
-
-AUTHOR NAME(s) and AFFILIATION(s) are to be centered beneath the title
-and printed in Times 12-point, non-boldface type. This information is to
-be followed by two blank lines.
-
-The ABSTRACT and MAIN TEXT are to be in a two-column format.
-
-MAIN TEXT. Type main text in 10-point Times, single-spaced. Do NOT use
-double-spacing. All paragraphs should be indented 1 pica (approx. 1/6
-inch or 0.422 cm). Make sure your text is fully justified---that is,
-flush left and flush right. Please do not place any additional blank
-lines between paragraphs.
-
-Figure and table captions should be 9-point Roman type as in
-Figures~\ref{fig:onecol} and~\ref{fig:short}.  Short captions should be centred.
-
-\noindent Callouts should be 9-point Helvetica, non-boldface type.
-Initially capitalize only the first word of section titles and first-,
-second-, and third-order headings.
-
-FIRST-ORDER HEADINGS. (For example, {\large \bf 1. Introduction})
-should be Times 12-point boldface, initially capitalized, flush left,
-with one blank line before, and one blank line after.
-
-SECOND-ORDER HEADINGS. (For example, { \bf 1.1. Database elements})
-should be Times 11-point boldface, initially capitalized, flush left,
-with one blank line before, and one after. If you require a third-order
-heading (we discourage it), use 10-point Times, boldface, initially
-capitalized, flush left, preceded by one blank line, followed by a period
-and your text on the same line.
-
-%-------------------------------------------------------------------------
-\subsection{Footnotes}
-
-Please use footnotes\footnote {This is what a footnote looks like.  It
-often distracts the reader from the main flow of the argument.} sparingly.
-Indeed, try to avoid footnotes altogether and include necessary peripheral
-observations in
-the text (within parentheses, if you prefer, as in this sentence).  If you
-wish to use a footnote, place it at the bottom of the column on the page on
-which it is referenced. Use Times 8-point type, single-spaced.
-
-
-%-------------------------------------------------------------------------
-\subsection{References}
-
-List and number all bibliographical references in 9-point Times,
-single-spaced, at the end of your paper. When referenced in the text,
-enclose the citation number in square brackets, for
-example~\cite{Authors06}.  Where appropriate, include the name(s) of
-editors of referenced books.
-
-\begin{table}
-\begin{center}
-\begin{tabular}{|l|c|}
-\hline
-Method & Frobnability \\
-\hline\hline
-Theirs & Frumpy \\
-Yours & Frobbly \\
-Ours & Makes one's heart Frob\\
-\hline
-\end{tabular}
-\end{center}
-\caption{Results.   Ours is better.}
-\end{table}
-
-%-------------------------------------------------------------------------
-\subsection{Illustrations, graphs, and photographs}
-
-All graphics should be centered.  Please ensure that any point you wish to
-make is resolvable in a printed copy of the paper.  Resize fonts in figures
-to match the font in the body text, and choose line widths which render
-effectively in print.  Many readers (and reviewers), even of an electronic
-copy, will choose to print your paper in order to read it.  You cannot
-insist that they do otherwise, and therefore must not assume that they can
-zoom in to see tiny details on a graphic.
-
-When placing figures in \LaTeX, it's almost always best to use
-\verb+\includegraphics+, and to specify the  figure width as a multiple of
-the line width as in the example below
-{\small\begin{verbatim}
-   \usepackage[dvips]{graphicx} ...
-   \includegraphics[width=0.8\linewidth]
-                   {myfile.eps}
-\end{verbatim}
-}
-
-
-%-------------------------------------------------------------------------
-\subsection{Color}
-
-Color is valuable, and will be visible to readers of the electronic copy.
-However ensure that, when printed on a monochrome printer, no important
-information is lost by the conversion to grayscale.
-
-{\small
-\bibliographystyle{ieee}
-\bibliography{egbib}
-}
-
-\section{Appendix}
-If your course project is part of a larger project from another class or research lab, please fill in this section and clearly spell out the following items:
-
-\begin{enumerate}
-\item  Explicitly explain what the computer vision components are in this course project;
-\item  Explicitly list out all of your own contributions in this project in terms of:
-	\begin{enumerate}
-	\item ideas
-	\item formulations of algorithms
- 	\item software and coding
-	\item designs of experiments
-	\item analysis of experiments
-	\end{enumerate}
-\item Verify and confirm that you (and your partner currently taking CS231A) are the sole author(s) of the writeup.
-Please provide papers, theses, or other documents related to this project so that we can compare with your own writeup.
-\end{enumerate}
-
-
-\newpage
-% Usiamo l'asterisco per "rompere" le due colonne, 
-% ma senza forzare la larghezza massima
-\begin{table*}[t]
-\centering
-\small % Dimensione carattere leggermente ridotta per eleganza
-\setlength{\tabcolsep}{10pt} % Aumenta un po' lo spazio tra colonne per leggibilità
-\begin{tabular}{|l||cc|cc|cc|}
-\hline
-\textbf{Configurazione} & \multicolumn{2}{c|}{\textbf{Frankenstein}} & \multicolumn{2}{c|}{\textbf{Frank. x50}} & \multicolumn{2}{c|}{\textbf{Dataset Text8}} \\
-\cline{2-7}
-(4 Core) & Tempo (s) & Speedup & Tempo (s) & Speedup & Tempo (s) & Speedup \\ \hline \hline
-Sequenziale     & 0.12 & - & 5.85 & 1.00x & 22.41 & 1.00x \\ \hline
-Multiprocessing & 0.15 & - & 1.95 & 3.00x & 7.22  & 3.10x \\ \hline
-JobLib          & 0.18 & - & 2.10 & 2.78x & 7.05  & 3.17x \\ \hline
-\end{tabular}
-\caption{Analisi comparativa dei tempi di esecuzione e speedup relativo.}
-\label{tab:final_comparison_slim}
-\end{table*}
 
 
 \end{document}
