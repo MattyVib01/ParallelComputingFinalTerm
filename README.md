@@ -1,21 +1,37 @@
-# Conteggio dei Bigram e Trigram all'interno di documenti
+# Conteggio di N-Grams: Analisi delle Prestazioni e Parallelizzazione
 
-Il seguente progetto è un lavoro per il corso di Parallel Computing per i corso di Ingegneria Informatica presso l'Università degli Studi di Firenze.
-Questo repository contiene i file necessari ad eseguire gli eseperimenti illustrati nella relazione `main.pdf`
-<!--
-## Dataset
+Questo progetto è un elaborato per il corso Parallel Computing per la Laurea in Ingegneria Informatica presso l'Università degli studi di Firenze.
+Si concentra sull'implementazione di un algoritmo per contare le istanze di bi-gram e tri-gram all'interno di un testo. L'analisi è stata condotta considerando sia la composizione di caratteri che di parole. Lo scopo principale è lo sviluppo e il confronto di versioni parallele dell'algoritmo per ottimizzare i tempi di esecuzione su file di grandi dimensioni.
 
-Il dataset utilizzato nel progetto è `FMA: Free Music Archive: Small`
+## Obiettivi del Progetto
 
-## Contenuto
+* Creazione di un algoritmo per il conteggio di n-grams (sequenze di n caratteri o parole consecutive).
+* Focalizzazione specifica su bi-gram e tri-gram (sequenze con n=2 e n=3).
+* Implementazione di versioni parallele per suddividere le operazioni tra i vari core della CPU.
+* Confronto tra diverse librerie di parallelizzazione in Python: Multiprocessing e JobLib.
 
-Oltre al codice del progetto sono presenti le seguenti cartelle:
-- `notebook`: contenente la versione del codice in formato notebook jupyter per l'esecuzione su Google Colab o affini.
-- `audio_example`: contenente alcuni esempi di tracce audio reali e ricostruite con i vari autoencoder.
-- `audio_reconstruction`: contenente i metodi per ricostruire i campioni con le varie tecniche (per ricostruire i campioni con DAC si faccia affidamente alla cartella `notebook`).
-- `relazione`:contenente i file per compilare la relazione del progetto in LaTex.
+## Implementazione e Strumenti
 
-## Requisiti
+### Tecniche di Parallelizzazione
+* **Multiprocessing**: Libreria nativa di Python che permette di aggirare il GIL (Global Interpreter Lock) creando processi figli del programma originale.
+* **JobLib:** Sfrutta il backend "Loky" per gestire i cali di memoria, prevenire deadlock e condividere dati in memoria evitando clonazioni.
+* **Threading:** Analizzato per valutare i limiti del context switching e della memoria condivisa in compiti CPU-bound.
 
-Assicurati di usare **Python 3.10 o superiore**.  
-Tutte le dipendenze sono elencate nel file `requirements.txt`.-->
+### Strutture Dati e Ottimizzazione
+* **Counter:** Utilizzato come Hash Map per memorizzare le istanze in modo efficiente, facilitando la somma dei contatori parziali nelle versioni parallele.
+* **MapReduce:** Il task è suddiviso nelle fasi di Map (individuazione e conteggio nei chunk) e Reduce (aggregazione dei risultati intermedi).
+
+## Dataset utilizzati
+
+I test prestazionali sono stati effettuati su testi estratti dal Progetto Gutenberg e HuggingFace:
+* Frankenstein (Mary Shelley): 78.099 parole.
+* Frankenstein x50: Versione replicata 50 volte (3.904.950 parole).
+* Dataset "text8": Una collezione di 100 MB di testo estratto da Wikipedia.
+
+## Installazione e Librerie
+
+Il progetto utilizza alcune librerie standard di Python e la libreria esterna JobLib. Per preparare l'ambiente di sviluppo, è necessario installare JobLib, con il comando sottostante:
+
+```bash
+pip install joblib
+

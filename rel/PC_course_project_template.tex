@@ -44,7 +44,7 @@
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{Conteggio dei Bi-Grams e Tri-Grams}
+\title{Estrazione di N-Grams: Confronto fra la versione sequenziale e parallela implementate in Python}
 
 \author{Mattia Baroncelli\\
 7166468\\
@@ -61,15 +61,15 @@
 
 %%%%%%%%% ABSTRACT
 \begin{abstract}
-   Il progetto si concentra sull'implementazione di un algoritmo che consenta di contare le istanze di bi-gram e tri-gram all'interno di un testo. Questo inteso sia come composizione di caratteri, che come composizione di parole. E' chiaro, a partire dalla natura del progetto, come all'aumentare della dimensione del file dato in input, i tempi di esecuzione si dilatano notevolemnte.
-   Lo scopo principale del progetto pertanto è quella di implementare una versione parallela dell'algoritmo, che vada a velocizzare il processo. La soluzione verrò data sia tramite la libreria \textit{Multiprocessing} che utilizzando \textit{JobLib}, valutando vantaggi e svantaggi dei due metodi.
+   Il progetto si concentra sull'implementazione di un algoritmo che consenta di contare le istanze di bi-gram e tri-gram all'interno di un testo. Questo inteso sia come composizione di caratteri, che come composizione di parole. E' chiaro, a partire dalla natura del progetto, come all'aumentare della dimensione del file dato in input, i tempi di esecuzione si dilatino notevolemnte.
+   Lo scopo principale del progetto pertanto è quella di implementare una versione parallela dell'algoritmo, che vada a velocizzare il processo. La soluzione verrò data sia tramite la libreria \textit{Multiprocessing} che utilizzando \textit{JobLib}.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
 \noindent\textbf{Future Distribution Permission}\\
 \indent The author(s) of this report give permission for this document to be distributed to Unifi-affiliated students taking future courses.
 
-\section{Introduction}
+\section{Introduzione}
 
 L'obiettivo principale del progetto è quello di creare un algoritmo che ci permetta di contare gli n-grams presenti in un file dato in input. Gli n-grams sono sequenze di n caratteri (o parole) consecutive che si riscontrano all'interno del testo. In particolare in questo progetto ci concentreremo sulla ricerca dei bi-gram e dei tri-gram (ossia le sequenze con n=2 e n=3). Nel caso dei bi-gram quindi l'algoritmo andrà a ricercare tutte le coppie di caratteri vicine all'interno del testo e successivamente conterà le occorrenze delle coppie all'interno del testo.
 Una delle maggiori criticità dell'algoritmo si presenta quando la dimensione del testo risulta essere molto grande, poichè il processo di contare le occorrenze all'interno del testo può durare molto tempo. Con lo scopo di superare queste limitazioni abbiamo implementato alcune versioni parallele dell'algoritmo, che riescono a suddividere le operazioni fra i vari core, andando a ridurre i tempi di esecuzione.
@@ -88,19 +88,19 @@ Il processo di parallelizzazione è stato fatto usando Python; in particolare le
 \section{Implementazione}
 Andiamo adesso a vedere alcune fasi necessarie e scelte di implementazione del codice.
 \subsection{Dataset}
-Prima di iniziare a descrivere l'algoritmo è necessario procedere con una fase pregressa, ossia quella di normalizzazione del testo. Innanzitutto tutti i testi che andremo ad usare saranno in lingua inglese e sono estratti da testi provenienti da \textit{Gutenberg Project}, un sito che permette l'accesso gratuito a numerosi testi della letteratura inglese in formato UTF-8. Un'ecccezione è rappresentata dal dataset \textit{text8 dataset} che è una collezione della dimensione di 100 MB, di testo estratto da Wikipedia. Per poter avere a disposizione un file di dimensione a piacere abbiamo creato uno script \lstinline{create_large_corpus} che permette di copiare il testo contenuto in un file per un numero desiderato di volte all'interno di un altro file. I file a cui si fa riferimento sono in formato \textit{.txt} e non sono presenti all'interno del repository, ma sono facilmente reperibili.
+Prima di iniziare a descrivere l'algoritmo è necessario procedere con una fase pregressa, ossia quella di normalizzazione del testo. Innanzitutto tutti i testi che andremo ad usare saranno in lingua inglese ed estratti da testi provenienti da \textit{Gutenberg Project}, un sito che permette l'accesso gratuito a numerosi testi della letteratura inglese in formato UTF-8. Un'ecccezione è rappresentata dal dataset \textit{text8 dataset} che è una collezione della dimensione di 100 MB, di testo estratto da Wikipedia. Per poter avere a disposizione un file di dimensione a piacere abbiamo creato uno script \lstinline{create_large_corpus} che permette di copiare il testo contenuto in un file per un numero desiderato di volte all'interno di un altro file. I file a cui si fa riferimento sono in formato \textit{.txt} e non sono presenti all'interno del repository, ma sono facilmente reperibili.
 \subsection{Normalizzazione}
 Una volta estratto il testo questo viene sottoposto ad un processo di normalizzazione, in modo da ridurre la dimensione del dizionario complessivo e rendere più facile l'individuazione degli n-grams, questo viene fatto tramite le funzioni \lstinline{clean_chars} e \lstinline{clean_words}.
 Nello specifico queste eliminano tutti i caratteri in maiuscolo, rimuovono la punteggiatura e nel caso dei caratteri eliminano tutti gli spazi fra parole diverse.
 
-\subsection{Counter}
+\subsection{Struttura dati Counter}
 Come abbiamo visto lo scopo principale del progetto è contare le occorrenze degli n-grams, ed è importante notare come nel caso di testo dell'ordine dei GB è necessaria una struttura dati che ci permetta di memorizzare le istanze presenti nel dizionario in modo efficiente. Per questo all'interno del progetto viene usata la struttura dati \lstinline{Counter}, questa è una Hash Map, che permette di accedere allo slot di memoria relativo ad un n-gram, senza dover scorrere la lista di tutti gli n-gram. Inoltre vedremo che questa struttura dati ci permetterà di sommare con semplicità i contatori parziali della versione parallela del codice.
 %-------------------------------------------------------------------------
 
 \section{Codice}
 In questa sezione andiamo a vedere le diverse versioni del codice che implementa il conteggio degli n-grams. I task principali sono due, ossia: il conteggio di n-gram di caratteri e il conteggio di n-gram di parole. Poichè il codice per svolgere i due task è molto simile, e varia principalmente nella fase di preprocessing, verrà mostrato solo quello riguardante i caratteri.
 
-\subsection{Sequential version}
+\subsection{Versione sequenziale}
 Iniziamo l'analisi con la versione sequenziale dell'algoritmo.
 Il codice per la versione sequenziale è contenuto nel file \lstinline{sequential_counter} ed è formato da due fasi principali:
 \begin{itemize}
@@ -122,18 +122,18 @@ def compute_bigrams(chars):
     return b_chars
 \end{lstlisting}
 
-La prima funzione prende in input il testo che ha già subito la fase di preprocessing e la dimensione di n-grams desiderati (2 per i bi-grams, 3 per i tri-grams...). Poi scorrendo tutta la sequenza di testo estrae sottosequenze di caratteri lunghe quanto il parametro \textit{n}, convertendole in tuple. Successivamente tramite il costrutto "yield" restituisce l'ngram generato alla funzione \lstinline{get_ngrams} che si occupa di allocare la locazione di memoria che permette di contare le occorrenze nel caso sia un nuova n-grams, mentre aggiornerà il contatore per quelli che sono già presenti nella struttura dati.
+La prima funzione prende in input il testo che ha già subito la fase di preprocessing e la dimensione di n-grams desiderata (2 per i bi-grams, 3 per i tri-grams...). Poi scorrendo tutta la sequenza di testo estrae sottosequenze di caratteri lunghe quanto il parametro \textit{n}, convertendole in tuple. Successivamente tramite il costrutto "yield" restituisce l'ngram generato alla funzione \lstinline{get_ngrams} che si occupa di allocare la locazione di memoria che permette di contare le occorrenze nel caso sia un nuova n-grams, mentre aggiornerà il contatore per quelli che sono già presenti nella struttura dati.
 L'uso del costrutto \lstinline{yield} è stato cruciale per quanto riguarda l'ottimizzazione del codice. Una prima soluzione era stata quella di inserire ogni n-gram trovato all'interno di una lista e poi passarla al Counter per permettere di contare le occorrenze; questo presentava problemi nel caso di corpus di dimensioni molto elevate. L'operazione di inserimento costringe a dover scorrere tutta la lista e quando il numero di n-grams è elevato, l'operazione diventa molto costosa. In questo modo invece ad ogni ciclo il codice si interrompe per passare l'n-gram alla funzione che ne andrà a fare l'hashing. Il codice sequenziale pertanto risulta semplice, ma riesce a svolgere il task senza problemi.
 
-\subsection{Parallel version}
+\subsection{Versione parallela}
 Dopo aver implementato la versione sequenziale del codice vediamo adesso come è possibile passare ad una versione parallela. La versione parallela è stata sviluppata mediante due librerie diverse che abbiamo visto durante le lezioni del corso:
 \begin{itemize}
    \item Multiprocessing: La libreria nativa di Python, permette di aggirare il GIL, andando a creare dei processi figli del programma originale.
    \item JobLib: Una libreria che sfrutta il backend "Loky", che permette di gestire i cali di memoria e prevenire i deadlocks. Inoltre permette di salvare grandi quantità di dati su una memoria condivisa permettendo ai processi di accedervi, evitando di clonare i dati.
 \end{itemize}
 
-Iniziamo l'analisi dal paredigma utilizato per fare il codice, ossia MapReduce. In questo approcco si divide il task in due fasi primitive denominate Map e Reduce applicate a coppie chiave-valore.Nella fase di Map, una funzione di mapping viene applicata in parallelo ad ogni split del dataset, dando in output delle coppie chiave-valore. Successivamente le coppie intermedie vengono raggruppate per chiave. Infine una funzione Reduce aggrega i risultati intermedi.
-Nel caso del conteggio degli n-grams la fase di Map individua gli n-grams presenti in ogni split del dataset, successivamente si procederà al conteggio parziale e infine la funzione Reduce andrà a sommare i risultati parziali. Il nostro obiettivo quindi è suddividere il testo totale in chunk della stessa grandezza, assegnare ogni chunk ad un core, far contare le occorrenze degli n-grams ad ogni core nel proprio chunk ed infine sommare tutti i risultati ottenuti da ogni core.
+Iniziamo l'analisi dal paredigma utilizato per fare il codice, ossia MapReduce. In questo approcco si divide il task in due fasi primitive denominate Map e Reduce applicate a coppie chiave-valore. Nella fase di Map, una funzione di mapping viene applicata in parallelo ad ogni split del dataset, dando in output delle coppie chiave-valore. Successivamente le coppie intermedie vengono raggruppate per chiave. Infine una funzione Reduce aggrega i risultati intermedi.
+Nel caso del conteggio degli n-grams la fase di Map individua gli n-grams presenti in ogni split del dataset. Successivamente si procederà al conteggio parziale e infine la funzione Reduce andrà a sommare i risultati parziali. Il nostro obiettivo quindi è suddividere il testo totale in chunk della stessa grandezza, assegnare ogni chunk ad un core, far contare le occorrenze degli n-grams ad ogni core nel proprio chunk ed infine sommare tutti i risultati ottenuti da ogni core.
 
 \subsubsection{Multiprocessing}
 Il primo metodo usato per sviluppare la versione parallela è attraverso l'utilizzo di \textit{Multiprocessing}. Si noti che per tutte le versioni parallele il metodo \lstinline{get_ngrams} resta uguale alla versione sequenziale e lo stesso vale per le funzioni che calcolano bigrams e trigrams. Questo succede perchè il nostro approccio consiste nel dividere il testo in molteplici chunk e applicare gli stessi metodi su questi, invece che sull'intero testo.

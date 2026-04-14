@@ -8,16 +8,13 @@ from chunker import get_chunks
 from save_csv import save_csv
 
 
-# 1. Aggiorniamo get_ngrams con il generatore (yield)
 def get_ngrams(seq, n):
     limite = len(seq) - n + 1
     for i in range(limite):
         fetta = seq[i : i+n]
         yield tuple(fetta)
 
-# --- FUNZIONI WORKER (Rimangono IDENTICHE!) ---
 def process_chunk_bigrams(chunk):
-    # Il Counter "succhia" i dati dal generatore un elemento alla volta
     return Counter(get_ngrams(chunk, 2))
 
 def process_chunk_trigrams(chunk):
@@ -39,38 +36,31 @@ def compute_trigrams_parallel(chars, num_cores):
 
 
 if __name__ == '__main__':
-    percorso = os.path.join('texts', 'text2.txt')
-    
-    # Se vuoi usare tutti i core, usa multiprocessing.cpu_count()
-    core_da_testare = 8
-    print(f"--- TEST MULTIPROCESSING CON {core_da_testare} CORE ---")
+    path = os.path.join('texts', 'text2.txt')
+    cores = 8
+    print(f"Multiprocessing: {cores} core")
 
-    # 1. Preprocessing (fuori dal conteggio del tempo, come nel sequenziale)
-    print("Fase di preprocessing...")
-    with open(percorso, 'r', encoding='utf-8') as f:
+    print("Fase di preprocessing")
+    with open(path, 'r', encoding='utf-8') as f:
         text = f.read()
     chars = clean_chars(text)
     
-    # 2. Calcolo Bigrammi
-    print("Calcolo dei Bigrammi in parallelo...")
+    print("Calcolo dei Bigrammi")
     start_b = time.perf_counter()
-    bc = compute_bigrams_parallel(chars, core_da_testare)
+    bc = compute_bigrams_parallel(chars, cores)
     end_b = time.perf_counter()
     tempo_b = end_b - start_b
     print(f"Completato in {tempo_b:.4f} secondi.")
 
-    # 3. Calcolo Trigrammi
-    print("Calcolo dei Trigrammi in parallelo...")
+    print("Calcolo dei Trigrammi")
     start_t = time.perf_counter()
-    tc = compute_trigrams_parallel(chars, core_da_testare)
+    tc = compute_trigrams_parallel(chars, cores)
     end_t = time.perf_counter()
     tempo_t = end_t - start_t
     print(f"Completato in {tempo_t:.4f} secondi.\n")
 
-    # 4. Salvataggio
-    save_csv(percorso, core_da_testare, "multiprocessing", tempo_b, tempo_t)
+    save_csv(path, cores, "multiprocessing", tempo_b, tempo_t)
     print("Tempi salvati correttamente nel file csv")
     
-    # Stampa di verifica dei risultati
     # print("\nTop 5 Bigrammi (Multiprocessing):", bc.most_common(5))
     # print("Top 5 Trigrammi (Multiprocessing):", tc.most_common(5))

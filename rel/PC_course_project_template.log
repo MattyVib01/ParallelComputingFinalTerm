@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  8 APR 2026 13:11
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (MiKTeX 24.1) (preloaded format=pdflatex 2025.10.10)  14 APR 2026 13:05
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -346,9 +346,9 @@ Here is how much of TeX's memory you used:
  29049 multiletter control sequences out of 15000+600000
  583072 words of font info for 89 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 72i,10n,79p,1018b,1570s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 72i,10n,79p,1014b,1570s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/courier/ucrr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmb8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmr8a.pfb><C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/type1/urw/times/utmri8a.pfb>
-Output written on PC_course_project_template.pdf (6 pages, 603466 bytes).
+Output written on PC_course_project_template.pdf (6 pages, 604031 bytes).
 PDF statistics:
  61 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)

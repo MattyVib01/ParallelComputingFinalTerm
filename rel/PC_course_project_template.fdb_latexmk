@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1775646706.83592 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1775646709.22676 0
-  "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1773331733 82507 a9eef8696c92627b87e9975edea03b2a ""
+["pdflatex"] 1776164755.18219 "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" "PC_course_project_template.pdf" "PC_course_project_template" 1776164757.46158 0
+  "C:/Users/matti/AppData/Local/MiKTeX/fonts/map/pdftex/pdftex.map" 1775829619 95356 043d47899ea2cded8f553d8421c1ecba ""
   "C:/Users/matti/AppData/Local/MiKTeX/miktex/data/le/pdftex/pdflatex.fmt" 1760089577 24225047 511c4c92957775ce37541764e35af610 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/enc/dvips/base/8r.enc" 1458473887 4993 80dc9bab7f31fb78a000ccfed0e27cab ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136765053 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -87,9 +87,9 @@
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty" 1700599895 4545 9f5ea23ab1c91476c42749893f790666 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty" 1388490452 12796 8edb7d69a20b857904dd0ea757c14ec9 ""
   "C:/Users/matti/AppData/Local/Programs/MiKTeX/tex/latex/xcolor/xcolor.sty" 1700127522 55487 80a65caedd3722f4c20a14a69e785d8f ""
-  "PC_course_project_template.aux" 1775646709 4681 05f549877de70c7799d84742e4ac9101 "pdflatex"
-  "PC_course_project_template.tex" 1775646703 30918 c8633af30bc2981406dc5640436e224d ""
-  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" 1775646703 30918 c8633af30bc2981406dc5640436e224d ""
+  "PC_course_project_template.aux" 1776164757 4700 1cf1eeac122bac89195c0d445b3a93c1 "pdflatex"
+  "PC_course_project_template.tex" 1776164751 30948 a11a8421784b176aaae7de1f65f33ce9 ""
+  "c:/Users/matti/Desktop/UNIVERSITA/parallel/Ex2/rel/PC_course_project_template.tex" 1776164751 30948 a11a8421784b176aaae7de1f65f33ce9 ""
   "cvpr.sty" 1773331635 8435 51b6483a72e0a50ce1e426c0920c8b85 ""
   "cvpr_eso.sty" 1773331636 3987 6aa7c08ff2621006e0603349e40a30a8 ""
   "eso-pic.sty" 1773331635 9727 d2935ae95b5cd343fcf5887ff530288d ""

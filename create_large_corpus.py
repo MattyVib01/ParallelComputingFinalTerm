@@ -10,7 +10,7 @@ def create_large_corpus(file_input, file_output, moltiplicatore):
     with open(file_output, 'w', encoding='utf-8') as f_out:
         for _ in range(moltiplicatore):
             f_out.write(testo_base)
-            f_out.write("\n") # Aggiungiamo un a capo tra un libro e l'altro
+            f_out.write("\n") 
 
     dimensione_finale = os.path.getsize(file_output) / (1024*1024)
     print(f"File creato con successo! Nuova dimensione: {dimensione_finale:.2f} MB")
@@ -18,6 +18,5 @@ def create_large_corpus(file_input, file_output, moltiplicatore):
 if __name__ == '__main__':
     input_path = os.path.join('texts', 'text1_large.txt')
     output_path = os.path.join('texts', 'text1_maxi.txt')
-    
-    # Frankenstein è circa 400KB. Moltiplicandolo per 250 otteniamo circa 100 MB.
+
     create_large_corpus(input_path, output_path, moltiplicatore=5)
